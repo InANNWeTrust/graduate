@@ -1,103 +1,108 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const questions = [
+  { q: "Какую роль ты бы хотел играть в команде будущего проекта?", options: ["Тот, кто отвечает за точность и замеры", "Разработчик цифрового ядра", "Создаю, проектирую, масштабирую", "Химичу, пока не получится"] },
+  { q: "Ты в пустыне и находишь странный прибор. Что первым делом сделаешь?", options: ["Разберу и соберу заново", "Подключу к питанию и проверю выходной сигнал", "Сканирую и опишу структуру", "Попробую понять, для чего он нужен"] },
+  { q: "Какой тип задач тебя вдохновляет больше всего?", options: ["Те, что требуют системного подхода и схем", "Те, где нужно быть ближе к живому организму", "Те, где нужна абстракция и математика", "Те, где руками и головой — в лаборатории"] },
+  { q: "Что из этого тебе ближе по духу?", options: ["Придумать нестандартную систему контроля", "Разработать интерфейс на границе технологий и человека", "Исследовать свойства неизвестных веществ", "Поработать с микроскопами и датчиками"] },
+  { q: "Ты попал в лабораторию мечты. Там есть:...", options: ["Наборы плат, паяльники и осциллограф", "Нанооборудование и спектрометр", "Реакторы, пробирки и запах химии", "Куча данных, датчиков и графиков"] },
+  { q: "В тебе просыпается исследователь. Куда пойдёшь?", options: ["В реакторный зал — там интересно", "В область биосенсоров и диагностики", "К лазерам, оптике и анализу изображений", "В нанообъекты и поверхности"] },
+  { q: "Ты проектируешь продукт. Что главное?", options: ["Надёжность, точность и контроль", "Минимизация, технологии и будущее", "Влияние на организм и эффективность", "Оптимизация процессов и автоматизация"] },
+  { q: "Какое высказывание тебе ближе?", options: ["Без физики мы ничего не поймём", "Без химии мы ничего не создадим", "Без данных мы ничего не узнаем", "Без контроля мы всё испортим"] },
+  { q: "Что ты чаще представляешь?", options: ["Потоки нейтронов и защитные оболочки", "Роботизированную операцию", "Процесс осаждения наночастиц", "Проект нового технологического процесса"] },
+  { q: "Твоя суперсила как инженера — это...", options: ["Анализ и контроль", "Интуиция и моделирование", "Реакции и преобразования", "Микромир и сверхточность"] }
+];
+
+const rules = [
+  { keyword: "реактор", direction: "Ядерные реакторы и материалы" },
+  { keyword: "нейтрон", direction: "Ядерные физика и технологии" },
+  { keyword: "осциллограф", direction: "Электроника и наноэлектроника" },
+  { keyword: "живому организму", direction: "Биотехнические системы и технологии" },
+  { keyword: "математика", direction: "Прикладные математика и физика" },
+  { keyword: "нано", direction: "Наноинженерия" },
+  { keyword: "химия", direction: "Химическая технология" },
+  { keyword: "автоматизация", direction: "Информационные системы и технологии" },
+  { keyword: "контроль", direction: "Инженерия неразрушающего контроля" },
+  { keyword: "качество", direction: "Управление качеством" },
+  { keyword: "интерфейс", direction: "Инноватика" },
+  { keyword: "анализ", direction: "Инженерия неразрушающего контроля" }
+];
+
+function predictDirection(answers: string[]): string {
+  const text = answers.join(" ").toLowerCase();
+  for (const rule of rules) {
+    if (text.includes(rule.keyword.toLowerCase())) {
+      return rule.direction;
+    }
+  }
+  return "Ты особенный! Придумай своё направление 😊";
+}
+
+export default function QuizApp() {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<string[]>([]);
+  const [result, setResult] = useState<string | null>(null);
+
+  const handleAnswer = (answer: string) => {
+    const newAnswers = [...answers, answer];
+    setAnswers(newAnswers);
+    if (step + 1 === questions.length) {
+      const prediction = predictDirection(newAnswers);
+      setResult(prediction);
+    } else {
+      setStep(step + 1);
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    <div className="min-h-screen bg-white px-4 py-10 flex items-center justify-center">
+      <div className="max-w-2xl w-full">
+        <AnimatePresence mode="wait">
+          {!result ? (
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.4 }}
+              className="bg-gray-100 p-8 rounded-2xl shadow text-center"
+            >
+              <div className="text-sm text-gray-500 mb-2">
+                Вопрос {step + 1} из {questions.length}
+              </div>
+              <h2 className="text-2xl md:text-3xl font-semibold mb-6">
+                {questions[step].q}
+              </h2>
+              <div className="grid gap-4">
+                {questions[step].options.map((opt, idx) => (
+                  <motion.button
+                    key={idx}
+                    whileTap={{ scale: 0.95, opacity: 0 }}
+                    onClick={() => handleAnswer(opt)}
+                    className="bg-white border-2 border-gray-300 rounded-xl py-4 px-6 text-lg hover:bg-gray-200 transition"
+                  >
+                    {opt}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="result"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="bg-yellow-100 p-8 rounded-2xl shadow text-center"
+            >
+              <h2 className="text-3xl font-bold mb-4">✨ Результат:</h2>
+              <p className="text-2xl">{result}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

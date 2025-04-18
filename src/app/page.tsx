@@ -608,7 +608,7 @@ export default function QuizApp() {
                   target="_blank"
                   className="block mt-4 text-blue-600 hover:text-blue-700 underline text-sm transition-colors font-medium"
                 >
-                  Вступай в нашу группу ВКонтакте — ФТИ | Абитуриентам
+                  Вступай в нашу группу ВКонтакте — Абитуриент Физтеха УрФУ
                 </a>
               </motion.div>
             </motion.div>

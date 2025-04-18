@@ -547,6 +547,7 @@ export default function QuizApp() {
   };
 
   const handleOptionToggle = (option: string, questionIndex: number) => {
+    console.log(`Toggling option: ${option} for question index: ${questionIndex}`);
     setSelectedOptions((prev) => {
       const newSelections = [...prev];
       const currentSelections = newSelections[questionIndex];
@@ -555,6 +556,7 @@ export default function QuizApp() {
       } else {
         newSelections[questionIndex] = [...currentSelections, option];
       }
+      console.log(`New selections:`, newSelections);
       return newSelections;
     });
   };
@@ -580,11 +582,19 @@ export default function QuizApp() {
   };
 
   const restart = () => {
+    console.log('Restarting quiz');
     setStep(0);
     setAnswers([]);
     setResult(null);
     setChartData([]);
     setSelectedOptions(Array(questions.length).fill([]));
+    console.log('State after restart:', {
+      step: 0,
+      answers: [],
+      result: null,
+      chartData: [],
+      selectedOptions: Array(questions.length).fill([]),
+    });
   };
 
   // Determine if any options are selected

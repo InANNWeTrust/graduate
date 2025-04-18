@@ -144,117 +144,107 @@ interface ConfettiOptions {
 }
 
 function SplashScreen({ onComplete }: { onComplete: () => void }) {
-  useEffect(() => {
-    const timer = setTimeout(onComplete, 2500);
-    return () => clearTimeout(timer);
-  }, [onComplete]);
+  const [isGlowing, setIsGlowing] = useState(false);
+
+  const handleClick = () => {
+    setIsGlowing(true);
+    setTimeout(() => {
+      onComplete();
+    }, 1000); // Задержка перед переходом к вопросам
+  };
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black"
+      transition={{ duration: 0.5 }}
+      onClick={handleClick}
+      className="fixed inset-0 flex items-center justify-center bg-black cursor-pointer"
     >
-      <div className="relative">
+      <div className="relative w-64 h-64">
+        {/* Эффект свечения */}
+        <AnimatePresence>
+          {isGlowing && (
+            <motion.div
+              initial={{ scale: 1, opacity: 0 }}
+              animate={{ 
+                scale: [1, 1.2, 1.8],
+                opacity: [0, 0.8, 0]
+              }}
+              transition={{ 
+                duration: 0.8,
+                ease: "easeOut"
+              }}
+              className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full blur-3xl"
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Основное изображение */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{
-            duration: 0.5,
-            ease: "easeOut"
-          }}
-          className="relative z-10"
+          animate={isGlowing ? {
+            scale: [1, 0.95, 1.02, 1],
+            opacity: [1, 0.8, 0]
+          } : {}}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 w-full h-full flex items-center justify-center"
         >
-          <div className="w-64 h-64 relative">
-            {/* Неоновое свечение */}
-            <div className="absolute inset-0 blur-xl bg-blue-500/30 animate-pulse"></div>
-            <div className="absolute inset-0 blur-md bg-blue-400/40"></div>
-            
+          <svg 
+            viewBox="0 0 1000 1000" 
+            className="w-full h-full text-white"
+          >
             {/* Атом */}
-            <svg viewBox="0 0 1000 1000" className="w-full h-full">
-              <motion.g
-                initial={{ rotate: 0 }}
-                animate={{ rotate: 360 }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              >
-                <ellipse
-                  cx="500"
-                  cy="500"
-                  rx="200"
-                  ry="400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="40"
-                  className="text-blue-400"
-                  transform="rotate(0 500 500)"
-                />
-                <ellipse
-                  cx="500"
-                  cy="500"
-                  rx="200"
-                  ry="400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="40"
-                  className="text-blue-400"
-                  transform="rotate(60 500 500)"
-                />
-                <ellipse
-                  cx="500"
-                  cy="500"
-                  rx="200"
-                  ry="400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="40"
-                  className="text-blue-400"
-                  transform="rotate(120 500 500)"
-                />
-              </motion.g>
-              
-              {/* Центральная точка */}
+            <g>
+              <ellipse
+                cx="500"
+                cy="500"
+                rx="200"
+                ry="400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="40"
+                transform="rotate(0 500 500)"
+              />
+              <ellipse
+                cx="500"
+                cy="500"
+                rx="200"
+                ry="400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="40"
+                transform="rotate(60 500 500)"
+              />
+              <ellipse
+                cx="500"
+                cy="500"
+                rx="200"
+                ry="400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="40"
+                transform="rotate(120 500 500)"
+              />
               <circle
                 cx="500"
                 cy="500"
                 r="60"
-                className="fill-blue-400"
+                fill="currentColor"
               />
-              
-              {/* Электроны */}
-              <motion.circle
-                cx="500"
-                cy="100"
-                r="40"
-                className="fill-blue-400"
-                animate={{
-                  cx: [500, 700, 500, 300, 500],
-                  cy: [100, 500, 900, 500, 100],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              />
-            </svg>
-          </div>
+            </g>
+          </svg>
         </motion.div>
-        
+
         {/* Текст */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          animate={isGlowing ? {
+            opacity: [1, 0],
+            y: [0, 20]
+          } : {}}
           className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 w-full text-center"
         >
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 animate-pulse">
-            Ф3Ԑԑ
-          </h1>
+          <p className="text-white text-sm">Нажмите, чтобы начать</p>
         </motion.div>
       </div>
     </motion.div>

@@ -8,7 +8,6 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   ResponsiveContainer,
   Cell,
 } from 'recharts';
@@ -512,7 +511,7 @@ export default function QuizApp() {
 
   useEffect(() => {
     console.log('Initial selectedOptions state:', selectedOptions);
-  }, []);
+  }, [selectedOptions]);
 
   const triggerConfetti = () => {
     const count = 200;

@@ -136,6 +136,13 @@ function getTopDirections(scoreMap: Record<string, number>, topN = 3) {
   return entries.sort((a, b) => b[1] - a[1]).slice(0, topN);
 }
 
+interface ConfettiOptions {
+  spread?: number;
+  startVelocity?: number;
+  decay?: number;
+  scalar?: number;
+}
+
 export default function QuizApp() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
@@ -161,7 +168,7 @@ export default function QuizApp() {
       zIndex: 1000,
     };
 
-    function fire(particleRatio: number, opts: any) {
+    function fire(particleRatio: number, opts: ConfettiOptions) {
       confetti({
         ...defaults,
         ...opts,

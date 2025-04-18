@@ -487,9 +487,12 @@ export default function QuizApp() {
 
   return (
     <div 
-      className="min-h-screen relative overflow-hidden px-4 py-10 flex items-center justify-center bg-gradient-to-br from-blue-300 via-blue-400 to-blue-500"
+      className="min-h-screen relative overflow-hidden px-4 py-10 flex items-center justify-center"
+      style={{
+        background: `linear-gradient(135deg, #1e3a8a, #2563eb)`
+      }}
     >
-      <div className="absolute inset-0 bg-grid opacity-20"></div>
+      <div className="absolute inset-0 bg-grid opacity-40"></div>
       <div className="max-w-2xl w-full relative z-10">
         <AnimatePresence mode="wait">
           {!result ? (
@@ -504,7 +507,7 @@ export default function QuizApp() {
                 stiffness: 100,
                 damping: 15
               }}
-              className="bg-white shadow-xl backdrop-blur-md p-8 rounded-2xl text-center border-2 border-white/50"
+              className="bg-white/95 backdrop-blur-xl p-8 rounded-2xl shadow-2xl text-center"
             >
               <motion.div 
                 className="text-4xl font-bold text-gray-900 mb-6"
@@ -529,7 +532,7 @@ export default function QuizApp() {
                     }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleAnswer(opt)}
-                    className="bg-white shadow-lg backdrop-blur-md border-2 border-gray-300 rounded-xl py-4 px-6 text-lg font-medium transition-all duration-300 hover:shadow-xl hover:border-green-400 text-gray-900 active:bg-green-50"
+                    className="bg-white shadow-xl border border-gray-300 rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 hover:shadow-2xl hover:border-green-500 hover:border-2 text-gray-900 active:bg-green-50"
                   >
                     {opt}
                   </motion.button>
@@ -546,10 +549,10 @@ export default function QuizApp() {
                     }}
                     className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
                       index < step 
-                        ? 'bg-green-400 border-green-500 scale-110' 
+                        ? 'bg-green-500 border-green-600 scale-110' 
                         : index === step 
-                        ? 'bg-white border-green-400 scale-125' 
-                        : 'bg-white/50 border-gray-300'
+                        ? 'bg-white border-green-500 scale-125' 
+                        : 'bg-white border-gray-400'
                     }`}
                   ></motion.div>
                 ))}
@@ -566,15 +569,15 @@ export default function QuizApp() {
                 stiffness: 100,
                 damping: 15
               }}
-              className="bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl text-center"
+              className="bg-white/95 backdrop-blur-xl p-8 rounded-2xl shadow-2xl text-center"
             >
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <h2 className="text-3xl font-bold mb-4">✨ Тебе подходит направление:</h2>
-                <p className="text-2xl mb-6 text-green-600 font-semibold">{result}</p>
+                <h2 className="text-3xl font-bold mb-4 text-gray-900">✨ Тебе подходит направление:</h2>
+                <p className="text-2xl mb-6 text-green-600 font-bold">{result}</p>
               </motion.div>
               
               {chartData.length > 0 && (
@@ -603,10 +606,11 @@ export default function QuizApp() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}
+                className="space-y-4"
               >
                 <button
                   onClick={restart}
-                  className="bg-gradient-to-r from-green-400 to-green-500 text-white text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105"
+                  className="bg-gradient-to-r from-green-500 to-green-600 text-white text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold"
                 >
                   Пройти ещё раз
                 </button>
@@ -614,7 +618,7 @@ export default function QuizApp() {
                 <a
                   href="https://vk.com/ftientrants"
                   target="_blank"
-                  className="block mt-4 text-blue-600 hover:text-blue-700 underline text-sm transition-colors"
+                  className="block mt-4 text-blue-600 hover:text-blue-700 underline text-sm transition-colors font-medium"
                 >
                   Вступай в нашу группу ВКонтакте — ФТИ | Абитуриентам
                 </a>

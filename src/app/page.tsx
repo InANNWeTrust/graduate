@@ -27,28 +27,28 @@ const montserrat = localFont({
 
 const rules = [
   // Ядерные физика и технологии
-  { keyword: 'ядерн', direction: 'Ядерные физика и технологии', weight: 2 },
+  { keyword: 'ядерн', direction: 'Ядерные физика и технологии', weight: 10 },
   { keyword: 'радиац', direction: 'Ядерные физика и технологии', weight: 10 },
   { keyword: 'физика ядра', direction: 'Ядерные физика и технологии', weight: 10 },
   { keyword: 'защита', direction: 'Ядерные физика и технологии', weight: 2 },
   { keyword: 'частиц', direction: 'Ядерные физика и технологии', weight: 2 },
 
   // Ядерные реакторы и материалы
-  { keyword: 'реактор', direction: 'Ядерные реакторы и материалы', weight: 2 },
+  { keyword: 'реактор', direction: 'Ядерные реакторы и материалы', weight: 10 },
   { keyword: 'топлив', direction: 'Ядерные реакторы и материалы', weight: 2 },
   { keyword: 'энергетик', direction: 'Ядерные реакторы и материалы', weight: 2 },
   { keyword: 'производств', direction: 'Ядерные реакторы и материалы', weight: 2 },
-  { keyword: 'безопасность', direction: 'Ядерные реакторы и материалы', weight: 2 },
+  { keyword: 'безопасность', direction: 'Ядерные реакторы и материалы', weight: 10 },
 
   // Химическая технология
-  { keyword: 'хими', direction: 'Химическая технология', weight: 2 },
-  { keyword: 'реагент', direction: 'Химическая технология', weight: 2 },
+  { keyword: 'хими', direction: 'Химическая технология', weight: 10 },
+  { keyword: 'реагент', direction: 'Химическая технология', weight: 10 },
   { keyword: 'раствор', direction: 'Химическая технология', weight: 2 },
   { keyword: 'вещест', direction: 'Химическая технология', weight: 2 },
   { keyword: 'лаборатор', direction: 'Химическая технология', weight: 2 },
 
   // Химическая технология материалов современной энергетики
-  { keyword: 'материал', direction: 'Химическая технология материалов современной энергетики', weight: 2 },
+  { keyword: 'материал', direction: 'Химическая технология материалов современной энергетики', weight: 10 },
   { keyword: 'процесс', direction: 'Химическая технология материалов современной энергетики', weight: 2 },
   { keyword: 'технолог', direction: 'Химическая технология материалов современной энергетики', weight: 2 },
   { keyword: 'стандарт', direction: 'Химическая технология материалов современной энергетики', weight: 2 },
@@ -58,64 +58,64 @@ const rules = [
   { keyword: 'био', direction: 'Биотехнические системы и технологии', weight: 2 },
   { keyword: 'медиц', direction: 'Биотехнические системы и технологии', weight: 2 },
   { keyword: 'организм', direction: 'Биотехнические системы и технологии', weight: 2 },
-  { keyword: 'биоинженер', direction: 'Биотехнические системы и технологии', weight: 2 },
-  { keyword: 'биомедицин', direction: 'Биотехнические системы и технологии', weight: 5 },
+  { keyword: 'биоинженер', direction: 'Биотехнические системы и технологии', weight: 10 },
+  { keyword: 'биомедицин', direction: 'Биотехнические системы и технологии', weight: 10 },
 
   // Электроника и наноэлектроника
-  { keyword: 'электрон', direction: 'Электроника и наноэлектроника', weight: 2 },
+  { keyword: 'электрон', direction: 'Электроника и наноэлектроника', weight: 10 },
   { keyword: 'схем', direction: 'Электроника и наноэлектроника', weight: 2 },
   { keyword: 'нано', direction: 'Электроника и наноэлектроника', weight: 2 },
   { keyword: 'микроскоп', direction: 'Электроника и наноэлектроника', weight: 2 },
-  { keyword: 'микро', direction: 'Электроника и наноэлектроника', weight: 5 },
+  { keyword: 'микро', direction: 'Электроника и наноэлектроника', weight: 10 },
 
   // Электроника и автоматика физических установок
-  { keyword: 'автомат', direction: 'Электроника и автоматика физических установок', weight: 2 },
+  { keyword: 'автомат', direction: 'Электроника и автоматика физических установок', weight: 10 },
   { keyword: 'датчик', direction: 'Электроника и автоматика физических установок', weight: 2 },
   { keyword: 'контрол', direction: 'Электроника и автоматика физических установок', weight: 2 },
-  { keyword: 'установк', direction: 'Электроника и автоматика физических установок', weight: 2 },
+  { keyword: 'установк', direction: 'Электроника и автоматика физических установок', weight: 10 },
   { keyword: 'систем', direction: 'Электроника и автоматика физических установок', weight: 2 },
 
   // Инженерия неразрушающего контроля
   { keyword: 'контрол', direction: 'Инженерия неразрушающего контроля', weight: 2 },
-  { keyword: 'надежност', direction: 'Инженерия неразрушающего контроля', weight: 2 },
+  { keyword: 'надежност', direction: 'Инженерия неразрушающего контроля', weight: 10 },
   { keyword: 'эффективност', direction: 'Инженерия неразрушающего контроля', weight: 2 },
   { keyword: 'точност', direction: 'Инженерия неразрушающего контроля', weight: 2 },
-  { keyword: 'измерен', direction: 'Инженерия неразрушающего контроля', weight: 2 },
+  { keyword: 'измерен', direction: 'Инженерия неразрушающего контроля', weight: 10 },
 
   // Наноинженерия
-  { keyword: 'нано', direction: 'Наноинженерия', weight: 5 },
-  { keyword: 'микроскоп', direction: 'Наноинженерия', weight: 2 },
+  { keyword: 'нано', direction: 'Наноинженерия', weight: 10 },
+  { keyword: 'микроскоп', direction: 'Наноинженерия', weight: 10 },
   { keyword: 'материал', direction: 'Наноинженерия', weight: 2 },
   { keyword: 'технолог', direction: 'Наноинженерия', weight: 2 },
-  { keyword: 'микро', direction: 'Наноинженерия', weight: 2 },
+  { keyword: 'микро', direction: 'Наноинженерия', weight: 10 },
 
   // Информационные системы и технологии
-  { keyword: 'информацион', direction: 'Информационные системы и технологии', weight: 2 },
-  { keyword: 'цифров', direction: 'Информационные системы и технологии', weight: 5 },
+  { keyword: 'информацион', direction: 'Информационные системы и технологии', weight: 10 },
+  { keyword: 'цифров', direction: 'Информационные системы и технологии', weight: 10 },
   { keyword: 'программ', direction: 'Информационные системы и технологии', weight: 2 },
-  { keyword: 'алгоритм', direction: 'Информационные системы и технологии', weight: 5 },
+  { keyword: 'алгоритм', direction: 'Информационные системы и технологии', weight: 10 },
   { keyword: 'технолог', direction: 'Информационные системы и технологии', weight: 2 },
 
   // Инноватика
-  { keyword: 'патент', direction: 'Инноватика', weight: 5 },
-  { keyword: 'стартап', direction: 'Инноватика', weight: 5 },
-  { keyword: 'инновации', direction: 'Инноватика', weight: 2 },
+  { keyword: 'патент', direction: 'Инноватика', weight: 10 },
+  { keyword: 'стартап', direction: 'Инноватика', weight: 10 },
+  { keyword: 'инновации', direction: 'Инноватика', weight: 10 },
   { keyword: 'разработка', direction: 'Инноватика', weight: 2 },
   { keyword: 'технологии', direction: 'Инноватика', weight: 2 },
 
   // Управление качеством
-  { keyword: 'бережливое производство', direction: 'Управление качеством', weight: 5 },
-  { keyword: 'стандарты', direction: 'Управление качеством', weight: 5 },
-  { keyword: 'качество', direction: 'Управление качеством', weight: 5 },
-  { keyword: 'управление', direction: 'Управление качеством', weight: 2 },
+  { keyword: 'бережливое производство', direction: 'Управление качеством', weight: 10 },
+  { keyword: 'стандарты', direction: 'Управление качеством', weight: 10 },
+  { keyword: 'качество', direction: 'Управление качеством', weight: 10 },
+  { keyword: 'управление', direction: 'Управление качеством', weight: 10 },
   { keyword: 'эффективность', direction: 'Управление качеством', weight: 2 },
 
   // Прикладные математика и физика
-  { keyword: 'квантовые вычисления', direction: 'Прикладные математика и физика', weight: 5 },
+  { keyword: 'квантовые вычисления', direction: 'Прикладные математика и физика', weight: 10 },
   { keyword: 'программирование', direction: 'Прикладные математика и физика', weight: 2 },
-  { keyword: 'математика', direction: 'Прикладные математика и физика', weight: 5 },
-  { keyword: 'физика', direction: 'Прикладные математика и физика', weight: 5 },
-  { keyword: 'исследование', direction: 'Прикладные математика и физика', weight: 2 },
+  { keyword: 'математика', direction: 'Прикладные математика и физика', weight: 10 },
+  { keyword: 'физика', direction: 'Прикладные математика и физика', weight: 10 },
+  { keyword: 'исследов', direction: 'Прикладные математика и физика', weight: 10 },
 ];
 
 const questions = [
@@ -730,7 +730,6 @@ export default function QuizApp() {
                 >
                   <ResponsiveContainer>
                     <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 20 }}>
-                      <CartesianGrid strokeDasharray="3 3" />
                       <XAxis type="number" hide={true} />
                       <YAxis type="category" dataKey="direction" tick={{ fontSize: 14 }} width={220} />
                       <Bar dataKey="value" fill="#6366f1" isAnimationActive={true} radius={[0, 10, 10, 0]}>

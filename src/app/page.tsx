@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -483,6 +484,7 @@ export default function QuizApp() {
   const [result, setResult] = useState<string | null>(null);
   const [chartData, setChartData] = useState<{ direction: string; value: number }[]>([]);
   const [showSplash, setShowSplash] = useState(true);
+  const [selectedOptions, setSelectedOptions] = useState<string[][]>(Array(questions.length).fill([]));
 
   const triggerConfetti = () => {
     const count = 200;
@@ -527,21 +529,37 @@ export default function QuizApp() {
     });
   };
 
-  const handleAnswer = (answer: string) => {
-    const newAnswers = [...answers, answer];
-    setAnswers(newAnswers);
-
-    setTimeout(() => {
-      if (step + 1 === questions.length) {
-        const scores = getScores(newAnswers);
-        const top3 = getTopDirections(scores);
-        setResult(top3[0]?.[0] || 'Ты особенный! Придумай своё направление 😊');
-        setChartData(top3.map(([direction, value]) => ({ direction, value })));
-        setTimeout(triggerConfetti, 500);
+  const handleOptionToggle = (option: string, questionIndex: number) => {
+    setSelectedOptions((prev) => {
+      const newSelections = [...prev];
+      const currentSelections = newSelections[questionIndex];
+      if (currentSelections.includes(option)) {
+        newSelections[questionIndex] = currentSelections.filter((opt) => opt !== option);
       } else {
-        setStep(step + 1);
+        newSelections[questionIndex] = [...currentSelections, option];
       }
-    }, 500);
+      return newSelections;
+    });
+  };
+
+  const handleNext = () => {
+    const newAnswers = [...answers, ...selectedOptions[step]];
+    setAnswers(newAnswers);
+    setSelectedOptions((prev) => {
+      const newSelections = [...prev];
+      newSelections[step] = [];
+      return newSelections;
+    });
+
+    if (step + 1 === questions.length) {
+      const scores = getScores(newAnswers);
+      const top3 = getTopDirections(scores);
+      setResult(top3[0]?.[0] || 'Ты особенный! Придумай своё направление 😊');
+      setChartData(top3.map(([direction, value]) => ({ direction, value })));
+      setTimeout(triggerConfetti, 500);
+    } else {
+      setStep(step + 1);
+    }
   };
 
   const restart = () => {
@@ -599,31 +617,20 @@ export default function QuizApp() {
                       transition: { duration: 0.2 }
                     }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => handleAnswer(opt)}
-                    className="bg-white shadow-xl border border-gray-300 rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 hover:shadow-2xl hover:border-green-500 hover:border-2 text-gray-900 active:bg-green-50"
+                    onClick={() => handleOptionToggle(opt, step)}
+                    className={`bg-white shadow-xl border border-gray-300 rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 hover:shadow-2xl hover:border-green-500 hover:border-2 text-gray-900 active:bg-green-50 ${selectedOptions[step].includes(opt) ? 'bg-green-100' : ''}`}
                   >
                     {opt}
                   </motion.button>
                 ))}
               </div>
-              <div className="flex justify-center gap-2 mt-8">
-                {questions.map((_, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ scale: 0.5 }}
-                    animate={{ 
-                      scale: 1,
-                      transition: { delay: index * 0.05 }
-                    }}
-                    className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
-                      index < step 
-                        ? 'bg-green-500 border-green-600 scale-110' 
-                        : index === step 
-                        ? 'bg-white border-green-500 scale-125' 
-                        : 'bg-white border-gray-400'
-                    }`}
-                  ></motion.div>
-                ))}
+              <div className="flex justify-center mt-8">
+                <button
+                  onClick={handleNext}
+                  className="bg-gradient-to-r from-green-500 to-green-600 text-white text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold"
+                >
+                  Далее
+                </button>
               </div>
             </motion.div>
           ) : (

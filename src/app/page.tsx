@@ -150,7 +150,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
     setIsGlowing(true);
     setTimeout(() => {
       onComplete();
-    }, 1000); // Задержка перед переходом к вопросам
+    }, 2000);
   };
 
   return (
@@ -163,20 +163,24 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
       className="fixed inset-0 flex items-center justify-center bg-black cursor-pointer"
     >
       <div className="relative w-64 h-64">
-        {/* Эффект свечения */}
+        {/* Эффект вспышки и затухания */}
         <AnimatePresence>
           {isGlowing && (
             <motion.div
-              initial={{ scale: 1, opacity: 0 }}
+              initial={{ opacity: 0 }}
               animate={{ 
-                scale: [1, 1.2, 1.8],
-                opacity: [0, 0.8, 0]
+                opacity: [0, 1, 0],
+                scale: [1, 1.2, 1]
               }}
               transition={{ 
-                duration: 0.8,
-                ease: "easeOut"
+                duration: 2,
+                times: [0, 0.3, 1], // Контролируем время каждой фазы анимации
+                ease: "easeInOut"
               }}
-              className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full blur-3xl"
+              className="absolute inset-0 bg-white rounded-full blur-2xl"
+              style={{
+                mixBlendMode: 'screen'
+              }}
             />
           )}
         </AnimatePresence>
@@ -184,10 +188,14 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         {/* Основное изображение */}
         <motion.div
           animate={isGlowing ? {
-            scale: [1, 0.95, 1.02, 1],
-            opacity: [1, 0.8, 0]
+            opacity: [1, 1, 0],
+            scale: [1, 1.1, 1]
           } : {}}
-          transition={{ duration: 0.8 }}
+          transition={{ 
+            duration: 2,
+            times: [0, 0.3, 1],
+            ease: "easeInOut"
+          }}
           className="relative z-10 w-full h-full flex items-center justify-center"
         >
           <svg 
@@ -196,6 +204,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           >
             {/* Атом */}
             <g>
+              {/* Орбиты */}
               <ellipse
                 cx="500"
                 cy="500"
@@ -203,7 +212,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
                 ry="400"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="40"
+                strokeWidth="20"
                 transform="rotate(0 500 500)"
               />
               <ellipse
@@ -213,7 +222,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
                 ry="400"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="40"
+                strokeWidth="20"
                 transform="rotate(60 500 500)"
               />
               <ellipse
@@ -223,14 +232,38 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
                 ry="400"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="40"
+                strokeWidth="20"
                 transform="rotate(120 500 500)"
               />
+
+              {/* Ядро */}
               <circle
                 cx="500"
                 cy="500"
-                r="60"
+                r="50"
                 fill="currentColor"
+              />
+
+              {/* Электрон */}
+              <motion.circle
+                cx="500"
+                cy="100"
+                r="25"
+                fill="currentColor"
+                animate={isGlowing ? {
+                  opacity: [1, 1, 0]
+                } : {
+                  cx: [500, 700, 500, 300, 500],
+                  cy: [100, 500, 900, 500, 100]
+                }}
+                transition={isGlowing ? {
+                  duration: 2,
+                  times: [0, 0.3, 1]
+                } : {
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
               />
             </g>
           </svg>
@@ -242,6 +275,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             opacity: [1, 0],
             y: [0, 20]
           } : {}}
+          transition={{ duration: 0.5 }}
           className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 w-full text-center"
         >
           <p className="text-white text-sm">Нажмите, чтобы начать</p>

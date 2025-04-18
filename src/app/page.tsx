@@ -102,7 +102,8 @@ export default function QuizApp() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<string | null>(null);
-  const [chartData, setChartData] = useState<any[]>([]);
+  type DirectionScore = { direction: string; value: number };
+  const [chartData, setChartData] = useState<DirectionScore[]>([]);
 
   const handleAnswer = (answer: string) => {
     const newAnswers = [...answers, answer];

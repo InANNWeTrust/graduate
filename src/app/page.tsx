@@ -211,20 +211,24 @@ interface ConfettiOptions {
 
 function SplashScreen({ onComplete }: { onComplete: () => void }) {
   const [showLetters, setShowLetters] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
 
   const handleClick = () => {
     if (!showLetters) {
       setShowLetters(true);
       setTimeout(() => {
-        onComplete();
-      }, 2500);
+        setFadeOut(true);
+        setTimeout(() => {
+          onComplete();
+        }, 1000);
+      }, 2000);
     }
   };
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      animate={{ opacity: fadeOut ? 0 : 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       onClick={handleClick}
@@ -458,7 +462,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
       {/* Текст для клика */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={{ opacity: showLetters ? 0 : 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
         className="mt-8"
       >

@@ -226,171 +226,238 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       onClick={handleClick}
-      className="fixed inset-0 flex items-center justify-center bg-black cursor-pointer"
+      className="fixed inset-0 flex flex-col items-center justify-center bg-black cursor-pointer"
     >
-      <div className="relative w-64 h-64">
-        {/* Эффект свечения при клике */}
-        <AnimatePresence>
-          {isGlowing && (
+      {/* Атом */}
+      <div className="relative w-64 h-64 mb-8">
+        {/* Ядро */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0.6, 1] }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "reverse"
+          }}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        >
+          <div className="w-12 h-12 rounded-full bg-white relative">
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{ 
-                opacity: [0, 0.3, 0],
+              animate={{ opacity: [0, 0.5, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
               }}
-              transition={{ 
-                duration: 2,
-                times: [0, 0.3, 1],
-                ease: "easeInOut"
-              }}
-              className="absolute inset-0 bg-white rounded-full blur-xl"
-              style={{
-                mixBlendMode: 'screen'
-              }}
+              className="absolute inset-0 rounded-full bg-white blur-md"
             />
-          )}
-        </AnimatePresence>
-
-        {/* Основное изображение */}
-        <motion.div
-          animate={isGlowing ? {
-            opacity: [1, 1, 0]
-          } : {}}
-          transition={{ 
-            duration: 2,
-            times: [0, 0.3, 1],
-            ease: "easeInOut"
-          }}
-          className="relative z-10 w-full h-full flex items-center justify-center"
-        >
-          <div className="relative w-full h-full">
-            {/* Постоянное мягкое свечение */}
-            <div className="absolute inset-0 w-full h-full">
-              <svg viewBox="0 0 1000 1000" className="w-full h-full">
-                {/* Свечение орбит */}
-                <g className="opacity-30">
-                  <ellipse
-                    cx="500"
-                    cy="500"
-                    rx="200"
-                    ry="400"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="40"
-                    className="blur-sm"
-                    transform="rotate(0 500 500)"
-                  />
-                  <ellipse
-                    cx="500"
-                    cy="500"
-                    rx="200"
-                    ry="400"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="40"
-                    className="blur-sm"
-                    transform="rotate(60 500 500)"
-                  />
-                  <ellipse
-                    cx="500"
-                    cy="500"
-                    rx="200"
-                    ry="400"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="40"
-                    className="blur-sm"
-                    transform="rotate(120 500 500)"
-                  />
-                  {/* Свечение ядра */}
-                  <circle
-                    cx="500"
-                    cy="500"
-                    r="50"
-                    fill="white"
-                    className="blur-sm"
-                  />
-                  {/* Свечение электрона */}
-                  <circle
-                    cx="500"
-                    cy="100"
-                    r="25"
-                    fill="white"
-                    className="blur-sm"
-                  />
-                </g>
-              </svg>
-            </div>
-
-            {/* Основные элементы */}
-            <svg 
-              viewBox="0 0 1000 1000" 
-              className="absolute inset-0 w-full h-full text-white"
-            >
-              {/* Орбиты */}
-              <g>
-                <ellipse
-                  cx="500"
-                  cy="500"
-                  rx="200"
-                  ry="400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="20"
-                  transform="rotate(0 500 500)"
-                />
-                <ellipse
-                  cx="500"
-                  cy="500"
-                  rx="200"
-                  ry="400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="20"
-                  transform="rotate(60 500 500)"
-                />
-                <ellipse
-                  cx="500"
-                  cy="500"
-                  rx="200"
-                  ry="400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="20"
-                  transform="rotate(120 500 500)"
-                />
-
-                {/* Ядро */}
-                <circle
-                  cx="500"
-                  cy="500"
-                  r="50"
-                  fill="currentColor"
-                />
-
-                {/* Стационарный электрон */}
-                <circle
-                  cx="500"
-                  cy="100"
-                  r="25"
-                  fill="currentColor"
-                />
-              </g>
-            </svg>
           </div>
         </motion.div>
 
-        {/* Текст */}
+        {/* Электрон */}
         <motion.div
-          animate={isGlowing ? {
-            opacity: [1, 0],
-            y: [0, 20]
-          } : {}}
-          transition={{ duration: 0.5 }}
-          className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 w-full text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0.6, 1] }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            repeatType: "reverse",
+            delay: 0.5
+          }}
+          className="absolute top-0 left-1/2 transform -translate-x-1/2"
         >
-          <p className="text-white text-sm">Нажмите, чтобы начать</p>
+          <div className="w-6 h-6 rounded-full bg-white relative">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.5, 0] }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+              }}
+              className="absolute inset-0 rounded-full bg-white blur-md"
+            />
+          </div>
+        </motion.div>
+
+        {/* Орбиты */}
+        {[0, 60, 120].map((rotation, index) => (
+          <motion.div
+            key={rotation}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0.8, 0.4, 0.8] }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatType: "reverse",
+              delay: index * 0.3
+            }}
+            className="absolute inset-0"
+            style={{ transform: `rotate(${rotation}deg)` }}
+          >
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-[400px] h-[200px] border-2 border-white rounded-full transform rotate-90 relative">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 0.3, 0] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                  }}
+                  className="absolute inset-0 border-2 border-white rounded-full blur-sm"
+                />
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Текст ФИЗТЕХ */}
+      <div className="flex items-center space-x-2">
+        {/* Ф в квадрате */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="relative"
+        >
+          <motion.div
+            initial={{ borderColor: "transparent" }}
+            animate={{ borderColor: "#4ade80" }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+            className="w-12 h-12 border-2 flex items-center justify-center relative"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.3, 0] }}
+              transition={{
+                delay: 0.8,
+                duration: 1.5,
+                repeat: Infinity,
+              }}
+              className="absolute inset-0 border-2 border-green-400 blur-sm"
+            />
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 0.3 }}
+              className="text-2xl font-bold text-magenta"
+            >
+              Ф
+            </motion.span>
+          </motion.div>
+        </motion.div>
+
+        {/* И */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, textShadow: "0 0 8px #ff00ff" }}
+          transition={{ delay: 1.2, duration: 0.5 }}
+          className="text-2xl font-bold italic text-magenta"
+          style={{ fontFamily: "Times New Roman" }}
+        >
+          И
+        </motion.div>
+
+        {/* З */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, textShadow: "0 0 8px #ff00ff" }}
+          transition={{ delay: 1.4, duration: 0.5 }}
+          className="text-2xl font-bold italic text-magenta"
+          style={{ fontFamily: "Times New Roman" }}
+        >
+          З
+        </motion.div>
+
+        {/* Т в квадрате */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.6, duration: 0.5 }}
+          className="relative"
+        >
+          <motion.div
+            initial={{ borderColor: "transparent" }}
+            animate={{ borderColor: "#4ade80" }}
+            transition={{ delay: 1.9, duration: 0.5 }}
+            className="w-12 h-12 border-2 flex items-center justify-center relative"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.3, 0] }}
+              transition={{
+                delay: 1.9,
+                duration: 1.5,
+                repeat: Infinity,
+              }}
+              className="absolute inset-0 border-2 border-green-400 blur-sm"
+            />
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.1, duration: 0.3 }}
+              className="text-2xl font-bold text-magenta"
+            >
+              Т
+            </motion.span>
+          </motion.div>
+        </motion.div>
+
+        {/* Е */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, textShadow: "0 0 8px #ff00ff" }}
+          transition={{ delay: 2.3, duration: 0.5 }}
+          className="text-2xl font-bold italic text-magenta"
+          style={{ fontFamily: "Times New Roman" }}
+        >
+          Е
+        </motion.div>
+
+        {/* Х в квадрате */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.5, duration: 0.5 }}
+          className="relative"
+        >
+          <motion.div
+            initial={{ borderColor: "transparent" }}
+            animate={{ borderColor: "#4ade80" }}
+            transition={{ delay: 2.8, duration: 0.5 }}
+            className="w-12 h-12 border-2 flex items-center justify-center relative"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.3, 0] }}
+              transition={{
+                delay: 2.8,
+                duration: 1.5,
+                repeat: Infinity,
+              }}
+              className="absolute inset-0 border-2 border-green-400 blur-sm"
+            />
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 3, duration: 0.3 }}
+              className="text-2xl font-bold text-magenta"
+            >
+              Х
+            </motion.span>
+          </motion.div>
         </motion.div>
       </div>
+
+      {/* Текст для клика */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 3.2, duration: 0.5 }}
+        className="mt-8"
+      >
+        <p className="text-white text-sm">Нажмите, чтобы начать</p>
+      </motion.div>
     </motion.div>
   );
 }

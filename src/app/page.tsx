@@ -324,11 +324,11 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: showLetters ? 1 : 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-2xl font-bold italic text-white uppercase"
+              transition={{ duration: 1 }}
+              className="text-2xl font-bold italic text-white lowercase"
               style={{ fontFamily: "Times New Roman" }}
             >
-              Ф
+              ф
             </motion.span>
           </div>
         </motion.div>
@@ -344,10 +344,10 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold italic text-white uppercase"
+          className="text-2xl font-bold italic text-white lowercase"
           style={{ fontFamily: "Times New Roman" }}
         >
-          И
+          и
         </motion.div>
 
         {/* З */}
@@ -361,10 +361,10 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold italic text-white uppercase"
+          className="text-2xl font-bold italic text-white lowercase"
           style={{ fontFamily: "Times New Roman" }}
         >
-          З
+          з
         </motion.div>
 
         {/* Т в квадрате */}
@@ -393,11 +393,11 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: showLetters ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-2xl font-bold italic text-white uppercase"
+              transition={{ duration: 1 }}
+              className="text-2xl font-bold italic text-white lowercase"
               style={{ fontFamily: "Times New Roman" }}
             >
-              Т
+              т
             </motion.span>
           </div>
         </motion.div>
@@ -413,10 +413,10 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold italic text-white uppercase"
+          className="text-2xl font-bold italic text-white lowercase"
           style={{ fontFamily: "Times New Roman" }}
         >
-          Е
+          е
         </motion.div>
 
         {/* Х в квадрате */}
@@ -445,11 +445,11 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: showLetters ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="text-2xl font-bold italic text-white uppercase"
+              transition={{ duration: 1 }}
+              className="text-2xl font-bold italic text-white lowercase"
               style={{ fontFamily: "Times New Roman" }}
             >
-              Х
+              х
             </motion.span>
           </div>
         </motion.div>

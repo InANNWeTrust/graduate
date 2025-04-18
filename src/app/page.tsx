@@ -210,15 +210,10 @@ interface ConfettiOptions {
 }
 
 function SplashScreen({ onComplete }: { onComplete: () => void }) {
-  const [showLetters, setShowLetters] = useState(false);
-
   const handleClick = () => {
-    if (!showLetters) {
-      setShowLetters(true);
-      setTimeout(() => {
-        onComplete();
-      }, 3000); // Даем время на анимацию появления букв
-    }
+    setTimeout(() => {
+      onComplete();
+    }, 2000);
   };
 
   return (
@@ -232,85 +227,51 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
     >
       {/* Атом */}
       <div className="relative w-64 h-64 mb-8">
-        {/* Ядро */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 1, 0.6, 1] }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        >
-          <div className="w-12 h-12 rounded-full bg-white relative">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.5, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-              }}
-              className="absolute inset-0 rounded-full bg-white blur-md"
-            />
-          </div>
-        </motion.div>
-
-        {/* Электрон */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 1, 0.6, 1] }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            repeatType: "reverse",
-            delay: 0.5
-          }}
-          className="absolute top-0 left-1/2 transform -translate-x-1/2"
-        >
-          <div className="w-6 h-6 rounded-full bg-white relative">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.5, 0] }}
-              transition={{
-                duration: 1,
-                repeat: Infinity,
-              }}
-              className="absolute inset-0 rounded-full bg-white blur-md"
-            />
-          </div>
-        </motion.div>
-
-        {/* Орбиты */}
-        {[0, 60, 120].map((rotation, index) => (
-          <motion.div
-            key={rotation}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.8, 0.4, 0.8] }}
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          {/* Ядро */}
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="8"
+            fill="white"
+            initial={{ scale: 0.8, opacity: 0.5 }}
+            animate={{ 
+              scale: [0.8, 1, 0.8],
+              opacity: [0.5, 1, 0.5]
+            }}
             transition={{
               duration: 2,
               repeat: Infinity,
-              repeatType: "reverse",
-              delay: index * 0.3
+              ease: "easeInOut"
             }}
-            className="absolute inset-0"
-            style={{ transform: `rotate(${rotation}deg)` }}
-          >
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-[400px] h-[200px] border-2 border-white rounded-full transform rotate-90 relative">
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 0.3, 0] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                  }}
-                  className="absolute inset-0 border-2 border-white rounded-full blur-sm"
-                />
-              </div>
-            </div>
-          </motion.div>
-        ))}
+          />
+          
+          {/* Орбиты */}
+          {[0, 60, 120].map((rotation, index) => (
+            <motion.ellipse
+              key={rotation}
+              cx="50"
+              cy="50"
+              rx="40"
+              ry="15"
+              fill="none"
+              stroke="white"
+              strokeWidth="0.5"
+              transform={`rotate(${rotation} 50 50)`}
+              initial={{ opacity: 0.3 }}
+              animate={{ 
+                opacity: [0.3, 0.7, 0.3],
+                strokeWidth: [0.5, 1, 0.5]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: index * 0.3,
+                ease: "easeInOut"
+              }}
+            />
+          ))}
+        </svg>
       </div>
 
       {/* Текст ФИЗТЕХ */}
@@ -319,7 +280,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            boxShadow: ['0 0 10px #4ade80', '0 0 20px #4ade80', '0 0 10px #4ade80'],
+            boxShadow: ['0 0 15px #60a5fa', '0 0 25px #60a5fa', '0 0 15px #60a5fa'],
           }}
           transition={{ 
             duration: 2,
@@ -328,24 +289,17 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative"
         >
-          <div className="w-12 h-12 border-2 border-green-400 flex items-center justify-center relative">
+          <div className="w-12 h-12 border-2 border-blue-400 flex items-center justify-center relative">
             <motion.div
-              initial={{ opacity: 0.3 }}
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
               }}
-              className="absolute inset-0 border-2 border-green-400 blur-sm"
+              className="absolute inset-0 border-2 border-blue-400 blur-lg"
             />
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showLetters ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-2xl font-bold text-magenta"
-            >
-              Ф
-            </motion.span>
+            <span className="text-2xl font-bold text-white" style={{ fontFamily: "Times New Roman" }}>Ф</span>
           </div>
         </motion.div>
 
@@ -353,14 +307,14 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            textShadow: ['0 0 10px #ff00ff', '0 0 20px #ff00ff', '0 0 10px #ff00ff'],
+            textShadow: ['0 0 15px #60a5fa', '0 0 25px #60a5fa', '0 0 15px #60a5fa'],
           }}
           transition={{ 
             duration: 2,
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold italic text-magenta"
+          className="text-2xl font-bold text-white"
           style={{ fontFamily: "Times New Roman" }}
         >
           И
@@ -370,14 +324,14 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            textShadow: ['0 0 10px #ff00ff', '0 0 20px #ff00ff', '0 0 10px #ff00ff'],
+            textShadow: ['0 0 15px #60a5fa', '0 0 25px #60a5fa', '0 0 15px #60a5fa'],
           }}
           transition={{ 
             duration: 2,
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold italic text-magenta"
+          className="text-2xl font-bold text-white"
           style={{ fontFamily: "Times New Roman" }}
         >
           З
@@ -387,7 +341,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            boxShadow: ['0 0 10px #4ade80', '0 0 20px #4ade80', '0 0 10px #4ade80'],
+            boxShadow: ['0 0 15px #60a5fa', '0 0 25px #60a5fa', '0 0 15px #60a5fa'],
           }}
           transition={{ 
             duration: 2,
@@ -396,24 +350,17 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative"
         >
-          <div className="w-12 h-12 border-2 border-green-400 flex items-center justify-center relative">
+          <div className="w-12 h-12 border-2 border-blue-400 flex items-center justify-center relative">
             <motion.div
-              initial={{ opacity: 0.3 }}
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
               }}
-              className="absolute inset-0 border-2 border-green-400 blur-sm"
+              className="absolute inset-0 border-2 border-blue-400 blur-lg"
             />
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showLetters ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="text-2xl font-bold text-magenta"
-            >
-              Т
-            </motion.span>
+            <span className="text-2xl font-bold text-white" style={{ fontFamily: "Times New Roman" }}>Т</span>
           </div>
         </motion.div>
 
@@ -421,14 +368,14 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            textShadow: ['0 0 10px #ff00ff', '0 0 20px #ff00ff', '0 0 10px #ff00ff'],
+            textShadow: ['0 0 15px #60a5fa', '0 0 25px #60a5fa', '0 0 15px #60a5fa'],
           }}
           transition={{ 
             duration: 2,
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold italic text-magenta"
+          className="text-2xl font-bold text-white"
           style={{ fontFamily: "Times New Roman" }}
         >
           Е
@@ -438,7 +385,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            boxShadow: ['0 0 10px #4ade80', '0 0 20px #4ade80', '0 0 10px #4ade80'],
+            boxShadow: ['0 0 15px #60a5fa', '0 0 25px #60a5fa', '0 0 15px #60a5fa'],
           }}
           transition={{ 
             duration: 2,
@@ -447,24 +394,17 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative"
         >
-          <div className="w-12 h-12 border-2 border-green-400 flex items-center justify-center relative">
+          <div className="w-12 h-12 border-2 border-blue-400 flex items-center justify-center relative">
             <motion.div
-              initial={{ opacity: 0.3 }}
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
+              initial={{ opacity: 0.4 }}
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
               }}
-              className="absolute inset-0 border-2 border-green-400 blur-sm"
+              className="absolute inset-0 border-2 border-blue-400 blur-lg"
             />
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showLetters ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: 1 }}
-              className="text-2xl font-bold text-magenta"
-            >
-              Х
-            </motion.span>
+            <span className="text-2xl font-bold text-white" style={{ fontFamily: "Times New Roman" }}>Х</span>
           </div>
         </motion.div>
       </div>

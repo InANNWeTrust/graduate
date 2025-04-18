@@ -421,13 +421,9 @@ export default function QuizApp() {
 
   return (
     <div 
-      className="min-h-screen relative overflow-hidden px-4 py-10 flex items-center justify-center"
-      style={{
-        background: `radial-gradient(circle at ${50 + bgPosition.x}% ${50 + bgPosition.y}%, #f0f9ff, #e0f2fe, #dbeafe)`,
-        transition: 'background 0.3s ease',
-      }}
+      className="min-h-screen relative overflow-hidden px-4 py-10 flex items-center justify-center bg-gradient-to-br from-blue-300 via-blue-400 to-blue-500"
     >
-      <div className="absolute inset-0 bg-grid opacity-10"></div>
+      <div className="absolute inset-0 bg-grid opacity-20"></div>
       <div className="max-w-2xl w-full relative z-10">
         <AnimatePresence mode="wait">
           {!result ? (
@@ -442,17 +438,17 @@ export default function QuizApp() {
                 stiffness: 100,
                 damping: 15
               }}
-              className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg text-center"
+              className="bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl text-center"
             >
               <motion.div 
-                className="text-4xl font-bold text-gray-800 mb-6"
+                className="text-4xl font-bold text-gray-900 mb-6"
                 initial={{ scale: 0.5 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.3 }}
               >
                 {step + 1}
               </motion.div>
-              <h2 className="text-2xl md:text-3xl font-semibold mb-6">{questions[step].q}</h2>
+              <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-900">{questions[step].q}</h2>
               <div className="grid gap-4">
                 {questions[step].options.map((opt, idx) => (
                   <motion.button
@@ -467,7 +463,7 @@ export default function QuizApp() {
                     }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleAnswer(opt)}
-                    className="bg-white/90 backdrop-blur-sm border-2 border-gray-300 rounded-xl py-4 px-6 text-lg transition-all duration-300 hover:shadow-md hover:border-green-300"
+                    className="bg-white shadow-md backdrop-blur-md border-2 border-gray-300 rounded-xl py-4 px-6 text-lg transition-all duration-300 hover:shadow-lg hover:border-green-300 text-gray-900"
                   >
                     {opt}
                   </motion.button>
@@ -504,7 +500,7 @@ export default function QuizApp() {
                 stiffness: 100,
                 damping: 15
               }}
-              className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg text-center"
+              className="bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl text-center"
             >
               <motion.div
                 initial={{ opacity: 0, y: -20 }}

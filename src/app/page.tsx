@@ -632,7 +632,7 @@ export default function QuizApp() {
                     }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleOptionToggle(opt, step)}
-                    className={`bg-white shadow-xl border border-gray-300 rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 hover:shadow-2xl hover:border-green-500 hover:border-2 text-gray-900 active:bg-green-50 ${selectedOptions[step].includes(opt) ? 'bg-green-100 border-green-500 hover:bg-green-100 hover:border-green-500' : ''}`}
+                    className={`shadow-xl border rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 text-gray-900 ${selectedOptions[step].includes(opt) ? 'bg-green-100 border-2 border-green-500' : 'bg-white border border-gray-300 hover:bg-green-100 hover:border-green-500 hover:border-2'}`}
                   >
                     {opt}
                   </motion.button>

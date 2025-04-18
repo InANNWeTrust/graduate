@@ -210,10 +210,7 @@ interface ConfettiOptions {
 }
 
 function SplashScreen({ onComplete }: { onComplete: () => void }) {
-  const [isGlowing, setIsGlowing] = useState(false);
-
   const handleClick = () => {
-    setIsGlowing(true);
     setTimeout(() => {
       onComplete();
     }, 2000);
@@ -648,7 +645,7 @@ export default function QuizApp() {
                       <XAxis type="number" domain={[0, 3]} />
                       <YAxis type="category" dataKey="direction" tick={{ fontSize: 14 }} width={220} />
                       <Bar dataKey="value" fill="#6366f1" isAnimationActive={true} radius={[0, 10, 10, 0]}>
-                        {chartData.map((entry, index) => (
+                        {chartData.map((entry: { direction: string; value: number }, index: number) => (
                           <Cell key={`cell-${index}`} fill={`hsl(${220 + index * 20}, 70%, 60%)`} />
                         ))}
                       </Bar>

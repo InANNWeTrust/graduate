@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   ResponsiveContainer,
   Cell,
 } from 'recharts';
@@ -90,7 +89,7 @@ export default function QuizApp() {
       } else {
         setStep(step + 1);
       }
-    }, 500); // задержка перед переходом
+    }, 500);
   };
 
   const restart = () => {
@@ -120,6 +119,7 @@ export default function QuizApp() {
                   <motion.button
                     key={idx}
                     whileTap={{ scale: 0.95, opacity: 0 }}
+                    whileHover={{ backgroundColor: '#f0fdf4' }}
                     onClick={() => handleAnswer(opt)}
                     className="bg-white border-2 border-gray-300 rounded-xl py-4 px-6 text-lg hover:bg-gray-200 transition"
                   >
@@ -132,7 +132,9 @@ export default function QuizApp() {
                   <div
                     key={index}
                     className={`w-4 h-4 rounded-full border transition-all duration-300 ${
-                      index <= step ? 'bg-green-200 border-green-300' : 'bg-white border-gray-300'
+                      index < step ? 'bg-green-200 border-green-300' :
+                      index === step ? 'bg-white border-gray-400' :
+                      'bg-white border-gray-300'
                     }`}
                   ></div>
                 ))}
@@ -155,8 +157,7 @@ export default function QuizApp() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis type="number" domain={[0, 3]} />
                       <YAxis type="category" dataKey="direction" tick={{ fontSize: 14 }} width={220} />
-                      <Tooltip />
-                      <Bar dataKey="value" fill="#6366f1" isAnimationActive radius={[0, 10, 10, 0]}>
+                      <Bar dataKey="value" fill="#6366f1" isAnimationActive={false} radius={[0, 10, 10, 0]}>
                         {chartData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill="#6366f1" />
                         ))}

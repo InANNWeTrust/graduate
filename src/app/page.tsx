@@ -400,19 +400,7 @@ export default function QuizApp() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<string | null>(null);
   const [chartData, setChartData] = useState<{ direction: string; value: number }[]>([]);
-  const [bgPosition, setBgPosition] = useState({ x: 0, y: 0 });
   const [showSplash, setShowSplash] = useState(true);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth) * 10;
-      const y = (e.clientY / window.innerHeight) * 10;
-      setBgPosition({ x, y });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   const triggerConfetti = () => {
     const count = 200;

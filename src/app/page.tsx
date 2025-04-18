@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -502,6 +502,10 @@ export default function QuizApp() {
   const [chartData, setChartData] = useState<{ direction: string; value: number }[]>([]);
   const [showSplash, setShowSplash] = useState(true);
   const [selectedOptions, setSelectedOptions] = useState<string[][]>(Array(questions.length).fill([]));
+
+  useEffect(() => {
+    console.log('Initial selectedOptions state:', selectedOptions);
+  }, []);
 
   const triggerConfetti = () => {
     const count = 200;

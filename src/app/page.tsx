@@ -277,32 +277,22 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           ))}
 
           {/* Электрон */}
-          <motion.g
-            initial={{ rotate: 0 }}
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "linear"
+          <motion.circle
+            cx="90"
+            cy="50"
+            r="4"
+            fill="white"
+            initial={{ scale: 0.8, opacity: 0.5 }}
+            animate={{ 
+              scale: [0.8, 1, 0.8],
+              opacity: [0.5, 1, 0.5]
             }}
-          >
-            <motion.circle
-              cx="90"
-              cy="50"
-              r="4"
-              fill="white"
-              initial={{ scale: 0.8, opacity: 0.5 }}
-              animate={{ 
-                scale: [0.8, 1, 0.8],
-                opacity: [0.5, 1, 0.5]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-          </motion.g>
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
         </svg>
       </div>
 

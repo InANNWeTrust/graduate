@@ -252,7 +252,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           />
           
           {/* Орбиты */}
-          {[0, 60, 120].map((rotation, index) => (
+          {[0, 60, 120].map((rotation) => (
             <motion.ellipse
               key={rotation}
               cx="50"

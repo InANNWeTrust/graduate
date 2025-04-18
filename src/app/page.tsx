@@ -580,6 +580,9 @@ export default function QuizApp() {
     setChartData([]);
   };
 
+  // Determine if any options are selected
+  const isNextEnabled = selectedOptions[step].length > 0;
+
   if (showSplash) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
   }
@@ -629,7 +632,7 @@ export default function QuizApp() {
                     }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleOptionToggle(opt, step)}
-                    className={`bg-white shadow-xl border border-gray-300 rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 hover:shadow-2xl hover:border-green-500 hover:border-2 text-gray-900 active:bg-green-50 ${selectedOptions[step].includes(opt) ? 'bg-green-100 border-green-500' : ''}`}
+                    className={`bg-white shadow-xl border border-gray-300 rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 hover:shadow-2xl hover:border-green-500 hover:border-2 text-gray-900 active:bg-green-50 ${selectedOptions[step].includes(opt) ? 'bg-green-100 border-green-500 hover:bg-green-100' : ''}`}
                   >
                     {opt}
                   </motion.button>
@@ -657,7 +660,12 @@ export default function QuizApp() {
               <div className="flex justify-center mt-8">
                 <button
                   onClick={handleNext}
-                  className="bg-gradient-to-r from-green-500 to-green-600 text-white text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold"
+                  disabled={!isNextEnabled}
+                  className={`${
+                    isNextEnabled
+                      ? 'bg-gradient-to-r from-green-500 to-green-600 text-white'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  } text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold`}
                 >
                   Далее
                 </button>

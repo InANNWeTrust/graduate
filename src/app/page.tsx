@@ -210,10 +210,15 @@ interface ConfettiOptions {
 }
 
 function SplashScreen({ onComplete }: { onComplete: () => void }) {
+  const [showLetters, setShowLetters] = useState(false);
+
   const handleClick = () => {
-    setTimeout(() => {
-      onComplete();
-    }, 2000);
+    if (!showLetters) {
+      setShowLetters(true);
+      setTimeout(() => {
+        onComplete();
+      }, 2500);
+    }
   };
 
   return (
@@ -266,11 +271,38 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                delay: index * 0.3,
                 ease: "easeInOut"
               }}
             />
           ))}
+
+          {/* Электрон */}
+          <motion.g
+            initial={{ rotate: 0 }}
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          >
+            <motion.circle
+              cx="90"
+              cy="50"
+              r="4"
+              fill="white"
+              initial={{ scale: 0.8, opacity: 0.5 }}
+              animate={{ 
+                scale: [0.8, 1, 0.8],
+                opacity: [0.5, 1, 0.5]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+          </motion.g>
         </svg>
       </div>
 
@@ -299,7 +331,15 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
               }}
               className="absolute inset-0 border-2 border-blue-400 blur-lg"
             />
-            <span className="text-2xl font-bold text-white" style={{ fontFamily: "Times New Roman" }}>Ф</span>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: showLetters ? 1 : 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-2xl font-bold italic text-white uppercase"
+              style={{ fontFamily: "Times New Roman" }}
+            >
+              Ф
+            </motion.span>
           </div>
         </motion.div>
 
@@ -307,14 +347,14 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            textShadow: ['0 0 15px #60a5fa', '0 0 25px #60a5fa', '0 0 15px #60a5fa'],
+            textShadow: ['0 0 15px #fff', '0 0 25px #fff', '0 0 15px #fff'],
           }}
           transition={{ 
             duration: 2,
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold text-white"
+          className="text-2xl font-bold italic text-white uppercase"
           style={{ fontFamily: "Times New Roman" }}
         >
           И
@@ -324,14 +364,14 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            textShadow: ['0 0 15px #60a5fa', '0 0 25px #60a5fa', '0 0 15px #60a5fa'],
+            textShadow: ['0 0 15px #fff', '0 0 25px #fff', '0 0 15px #fff'],
           }}
           transition={{ 
             duration: 2,
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold text-white"
+          className="text-2xl font-bold italic text-white uppercase"
           style={{ fontFamily: "Times New Roman" }}
         >
           З
@@ -360,7 +400,15 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
               }}
               className="absolute inset-0 border-2 border-blue-400 blur-lg"
             />
-            <span className="text-2xl font-bold text-white" style={{ fontFamily: "Times New Roman" }}>Т</span>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: showLetters ? 1 : 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-2xl font-bold italic text-white uppercase"
+              style={{ fontFamily: "Times New Roman" }}
+            >
+              Т
+            </motion.span>
           </div>
         </motion.div>
 
@@ -368,14 +416,14 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            textShadow: ['0 0 15px #60a5fa', '0 0 25px #60a5fa', '0 0 15px #60a5fa'],
+            textShadow: ['0 0 15px #fff', '0 0 25px #fff', '0 0 15px #fff'],
           }}
           transition={{ 
             duration: 2,
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold text-white"
+          className="text-2xl font-bold italic text-white uppercase"
           style={{ fontFamily: "Times New Roman" }}
         >
           Е
@@ -404,7 +452,15 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
               }}
               className="absolute inset-0 border-2 border-blue-400 blur-lg"
             />
-            <span className="text-2xl font-bold text-white" style={{ fontFamily: "Times New Roman" }}>Х</span>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: showLetters ? 1 : 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="text-2xl font-bold italic text-white uppercase"
+              style={{ fontFamily: "Times New Roman" }}
+            >
+              Х
+            </motion.span>
           </div>
         </motion.div>
       </div>

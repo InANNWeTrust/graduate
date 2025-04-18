@@ -12,6 +12,17 @@ import {
   Cell,
 } from 'recharts';
 import confetti from 'canvas-confetti';
+import localFont from 'next/font/local';
+
+const montserrat = localFont({
+  src: [
+    {
+      path: '../fonts/Montserrat-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    }
+  ],
+});
 
 const questions = [
   { 
@@ -315,7 +326,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative"
         >
-          <div className="w-12 h-12 border-2 border-[#e11a63] flex items-center justify-center relative">
+          <div className="w-14 h-14 border-2 border-[#e11a63] flex items-center justify-center relative">
             <motion.div
               initial={{ opacity: 0.4 }}
               animate={{ opacity: [0.4, 0.8, 0.4] }}
@@ -329,10 +340,9 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: showLetters ? 1 : 0 }}
               transition={{ duration: 2 }}
-              className="text-2xl font-bold italic text-white lowercase"
-              style={{ fontFamily: "Times New Roman" }}
+              className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
             >
-              ф
+              Ф
             </motion.span>
           </div>
         </motion.div>
@@ -348,10 +358,9 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold italic text-white lowercase"
-          style={{ fontFamily: "Times New Roman" }}
+          className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
         >
-          и
+          И
         </motion.div>
 
         {/* З */}
@@ -365,10 +374,9 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold italic text-white lowercase"
-          style={{ fontFamily: "Times New Roman" }}
+          className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
         >
-          з
+          З
         </motion.div>
 
         {/* Т в квадрате */}
@@ -384,7 +392,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative"
         >
-          <div className="w-12 h-12 border-2 border-[#e11a63] flex items-center justify-center relative">
+          <div className="w-14 h-14 border-2 border-[#e11a63] flex items-center justify-center relative">
             <motion.div
               initial={{ opacity: 0.4 }}
               animate={{ opacity: [0.4, 0.8, 0.4] }}
@@ -398,10 +406,9 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: showLetters ? 1 : 0 }}
               transition={{ duration: 2 }}
-              className="text-2xl font-bold italic text-white lowercase"
-              style={{ fontFamily: "Times New Roman" }}
+              className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
             >
-              т
+              Т
             </motion.span>
           </div>
         </motion.div>
@@ -417,10 +424,9 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
             repeat: Infinity,
             repeatType: "reverse"
           }}
-          className="text-2xl font-bold italic text-white lowercase"
-          style={{ fontFamily: "Times New Roman" }}
+          className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
         >
-          е
+          Е
         </motion.div>
 
         {/* Х в квадрате */}
@@ -436,7 +442,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative"
         >
-          <div className="w-12 h-12 border-2 border-[#e11a63] flex items-center justify-center relative">
+          <div className="w-14 h-14 border-2 border-[#e11a63] flex items-center justify-center relative">
             <motion.div
               initial={{ opacity: 0.4 }}
               animate={{ opacity: [0.4, 0.8, 0.4] }}
@@ -450,10 +456,9 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: showLetters ? 1 : 0 }}
               transition={{ duration: 2 }}
-              className="text-2xl font-bold italic text-white lowercase"
-              style={{ fontFamily: "Times New Roman" }}
+              className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
             >
-              х
+              Х
             </motion.span>
           </div>
         </motion.div>
@@ -466,7 +471,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         transition={{ delay: 0.5, duration: 0.5 }}
         className="mt-8"
       >
-        <p className="text-white text-sm">Нажмите, чтобы продолжить</p>
+        <p className={`text-white text-xs ${montserrat.className}`}>Нажмите, чтобы продолжить</p>
       </motion.div>
     </motion.div>
   );

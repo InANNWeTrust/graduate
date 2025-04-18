@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Montserrat-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* CSS Variables for font families */
+:root {
+  --font-montserrat: 'Montserrat', system-ui, -apple-system, sans-serif;
+}
+
+/* Utility classes for font families */
+.montserrat {
+  font-family: var(--font-montserrat);
+} 

@@ -163,21 +163,20 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
       className="fixed inset-0 flex items-center justify-center bg-black cursor-pointer"
     >
       <div className="relative w-64 h-64">
-        {/* Эффект вспышки и затухания */}
+        {/* Эффект свечения при клике */}
         <AnimatePresence>
           {isGlowing && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ 
-                opacity: [0, 1, 0],
-                scale: [1, 1.2, 1]
+                opacity: [0, 0.3, 0],
               }}
               transition={{ 
                 duration: 2,
-                times: [0, 0.3, 1], // Контролируем время каждой фазы анимации
+                times: [0, 0.3, 1],
                 ease: "easeInOut"
               }}
-              className="absolute inset-0 bg-white rounded-full blur-2xl"
+              className="absolute inset-0 bg-white rounded-full blur-xl"
               style={{
                 mixBlendMode: 'screen'
               }}
@@ -188,8 +187,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         {/* Основное изображение */}
         <motion.div
           animate={isGlowing ? {
-            opacity: [1, 1, 0],
-            scale: [1, 1.1, 1]
+            opacity: [1, 1, 0]
           } : {}}
           transition={{ 
             duration: 2,
@@ -198,75 +196,121 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative z-10 w-full h-full flex items-center justify-center"
         >
-          <svg 
-            viewBox="0 0 1000 1000" 
-            className="w-full h-full text-white"
-          >
-            {/* Атом */}
-            <g>
+          <div className="relative w-full h-full">
+            {/* Постоянное мягкое свечение */}
+            <div className="absolute inset-0 w-full h-full">
+              <svg viewBox="0 0 1000 1000" className="w-full h-full">
+                {/* Свечение орбит */}
+                <g className="opacity-30">
+                  <ellipse
+                    cx="500"
+                    cy="500"
+                    rx="200"
+                    ry="400"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="40"
+                    className="blur-sm"
+                    transform="rotate(0 500 500)"
+                  />
+                  <ellipse
+                    cx="500"
+                    cy="500"
+                    rx="200"
+                    ry="400"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="40"
+                    className="blur-sm"
+                    transform="rotate(60 500 500)"
+                  />
+                  <ellipse
+                    cx="500"
+                    cy="500"
+                    rx="200"
+                    ry="400"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="40"
+                    className="blur-sm"
+                    transform="rotate(120 500 500)"
+                  />
+                  {/* Свечение ядра */}
+                  <circle
+                    cx="500"
+                    cy="500"
+                    r="50"
+                    fill="white"
+                    className="blur-sm"
+                  />
+                  {/* Свечение электрона */}
+                  <circle
+                    cx="500"
+                    cy="100"
+                    r="25"
+                    fill="white"
+                    className="blur-sm"
+                  />
+                </g>
+              </svg>
+            </div>
+
+            {/* Основные элементы */}
+            <svg 
+              viewBox="0 0 1000 1000" 
+              className="absolute inset-0 w-full h-full text-white"
+            >
               {/* Орбиты */}
-              <ellipse
-                cx="500"
-                cy="500"
-                rx="200"
-                ry="400"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="20"
-                transform="rotate(0 500 500)"
-              />
-              <ellipse
-                cx="500"
-                cy="500"
-                rx="200"
-                ry="400"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="20"
-                transform="rotate(60 500 500)"
-              />
-              <ellipse
-                cx="500"
-                cy="500"
-                rx="200"
-                ry="400"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="20"
-                transform="rotate(120 500 500)"
-              />
+              <g>
+                <ellipse
+                  cx="500"
+                  cy="500"
+                  rx="200"
+                  ry="400"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="20"
+                  transform="rotate(0 500 500)"
+                />
+                <ellipse
+                  cx="500"
+                  cy="500"
+                  rx="200"
+                  ry="400"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="20"
+                  transform="rotate(60 500 500)"
+                />
+                <ellipse
+                  cx="500"
+                  cy="500"
+                  rx="200"
+                  ry="400"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="20"
+                  transform="rotate(120 500 500)"
+                />
 
-              {/* Ядро */}
-              <circle
-                cx="500"
-                cy="500"
-                r="50"
-                fill="currentColor"
-              />
+                {/* Ядро */}
+                <circle
+                  cx="500"
+                  cy="500"
+                  r="50"
+                  fill="currentColor"
+                />
 
-              {/* Электрон */}
-              <motion.circle
-                cx="500"
-                cy="100"
-                r="25"
-                fill="currentColor"
-                animate={isGlowing ? {
-                  opacity: [1, 1, 0]
-                } : {
-                  cx: [500, 700, 500, 300, 500],
-                  cy: [100, 500, 900, 500, 100]
-                }}
-                transition={isGlowing ? {
-                  duration: 2,
-                  times: [0, 0.3, 1]
-                } : {
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              />
-            </g>
-          </svg>
+                {/* Стационарный электрон */}
+                <circle
+                  cx="500"
+                  cy="100"
+                  r="25"
+                  fill="currentColor"
+                />
+              </g>
+            </svg>
+          </div>
         </motion.div>
 
         {/* Текст */}

@@ -220,8 +220,8 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         setFadeOut(true);
         setTimeout(() => {
           onComplete();
-        }, 1500);
-      }, 4000);
+        }, 1000);
+      }, 3000);
     }
   };
 
@@ -230,7 +230,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: fadeOut ? 0 : 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.5, ease: "easeInOut" }}
+      transition={{ duration: 1, ease: "easeInOut" }}
       onClick={handleClick}
       className="fixed inset-0 flex flex-col items-center justify-center bg-black cursor-pointer"
     >
@@ -306,7 +306,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            boxShadow: ['0 0 15px #1e4391', '0 0 25px #1e4391', '0 0 15px #1e4391'],
+            boxShadow: ['0 0 15px #e11a63', '0 0 25px #e11a63', '0 0 15px #e11a63'],
           }}
           transition={{ 
             duration: 2,
@@ -315,7 +315,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative"
         >
-          <div className="w-12 h-12 border-2 border-[#1e4391] flex items-center justify-center relative">
+          <div className="w-12 h-12 border-2 border-[#e11a63] flex items-center justify-center relative">
             <motion.div
               initial={{ opacity: 0.4 }}
               animate={{ opacity: [0.4, 0.8, 0.4] }}
@@ -323,7 +323,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
                 duration: 2,
                 repeat: Infinity,
               }}
-              className="absolute inset-0 border-2 border-[#1e4391] blur-lg"
+              className="absolute inset-0 border-2 border-[#e11a63] blur-lg"
             />
             <motion.span
               initial={{ opacity: 0 }}
@@ -375,7 +375,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            boxShadow: ['0 0 15px #1e4391', '0 0 25px #1e4391', '0 0 15px #1e4391'],
+            boxShadow: ['0 0 15px #e11a63', '0 0 25px #e11a63', '0 0 15px #e11a63'],
           }}
           transition={{ 
             duration: 2,
@@ -384,7 +384,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative"
         >
-          <div className="w-12 h-12 border-2 border-[#1e4391] flex items-center justify-center relative">
+          <div className="w-12 h-12 border-2 border-[#e11a63] flex items-center justify-center relative">
             <motion.div
               initial={{ opacity: 0.4 }}
               animate={{ opacity: [0.4, 0.8, 0.4] }}
@@ -392,7 +392,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
                 duration: 2,
                 repeat: Infinity,
               }}
-              className="absolute inset-0 border-2 border-[#1e4391] blur-lg"
+              className="absolute inset-0 border-2 border-[#e11a63] blur-lg"
             />
             <motion.span
               initial={{ opacity: 0 }}
@@ -427,7 +427,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ 
-            boxShadow: ['0 0 15px #1e4391', '0 0 25px #1e4391', '0 0 15px #1e4391'],
+            boxShadow: ['0 0 15px #e11a63', '0 0 25px #e11a63', '0 0 15px #e11a63'],
           }}
           transition={{ 
             duration: 2,
@@ -436,7 +436,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           }}
           className="relative"
         >
-          <div className="w-12 h-12 border-2 border-[#1e4391] flex items-center justify-center relative">
+          <div className="w-12 h-12 border-2 border-[#e11a63] flex items-center justify-center relative">
             <motion.div
               initial={{ opacity: 0.4 }}
               animate={{ opacity: [0.4, 0.8, 0.4] }}
@@ -444,7 +444,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
                 duration: 2,
                 repeat: Infinity,
               }}
-              className="absolute inset-0 border-2 border-[#1e4391] blur-lg"
+              className="absolute inset-0 border-2 border-[#e11a63] blur-lg"
             />
             <motion.span
               initial={{ opacity: 0 }}
@@ -567,7 +567,7 @@ export default function QuizApp() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ 
-                duration: 1.5,
+                duration: 1,
                 ease: "easeInOut"
               }}
               className="bg-white/95 backdrop-blur-xl p-8 rounded-2xl shadow-2xl text-center"

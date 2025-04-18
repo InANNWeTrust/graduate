@@ -143,12 +143,131 @@ interface ConfettiOptions {
   scalar?: number;
 }
 
+function SplashScreen({ onComplete }: { onComplete: () => void }) {
+  useEffect(() => {
+    const timer = setTimeout(onComplete, 2500);
+    return () => clearTimeout(timer);
+  }, [onComplete]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black"
+    >
+      <div className="relative">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{
+            duration: 0.5,
+            ease: "easeOut"
+          }}
+          className="relative z-10"
+        >
+          <div className="w-64 h-64 relative">
+            {/* Неоновое свечение */}
+            <div className="absolute inset-0 blur-xl bg-blue-500/30 animate-pulse"></div>
+            <div className="absolute inset-0 blur-md bg-blue-400/40"></div>
+            
+            {/* Атом */}
+            <svg viewBox="0 0 1000 1000" className="w-full h-full">
+              <motion.g
+                initial={{ rotate: 0 }}
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              >
+                <ellipse
+                  cx="500"
+                  cy="500"
+                  rx="200"
+                  ry="400"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="40"
+                  className="text-blue-400"
+                  transform="rotate(0 500 500)"
+                />
+                <ellipse
+                  cx="500"
+                  cy="500"
+                  rx="200"
+                  ry="400"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="40"
+                  className="text-blue-400"
+                  transform="rotate(60 500 500)"
+                />
+                <ellipse
+                  cx="500"
+                  cy="500"
+                  rx="200"
+                  ry="400"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="40"
+                  className="text-blue-400"
+                  transform="rotate(120 500 500)"
+                />
+              </motion.g>
+              
+              {/* Центральная точка */}
+              <circle
+                cx="500"
+                cy="500"
+                r="60"
+                className="fill-blue-400"
+              />
+              
+              {/* Электроны */}
+              <motion.circle
+                cx="500"
+                cy="100"
+                r="40"
+                className="fill-blue-400"
+                animate={{
+                  cx: [500, 700, 500, 300, 500],
+                  cy: [100, 500, 900, 500, 100],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
+            </svg>
+          </div>
+        </motion.div>
+        
+        {/* Текст */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 w-full text-center"
+        >
+          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 animate-pulse">
+            Ф3Ԑԑ
+          </h1>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function QuizApp() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<string | null>(null);
   const [chartData, setChartData] = useState<{ direction: string; value: number }[]>([]);
   const [bgPosition, setBgPosition] = useState({ x: 0, y: 0 });
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -227,6 +346,10 @@ export default function QuizApp() {
     setResult(null);
     setChartData([]);
   };
+
+  if (showSplash) {
+    return <SplashScreen onComplete={() => setShowSplash(false)} />;
+  }
 
   return (
     <div 

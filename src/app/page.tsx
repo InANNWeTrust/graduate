@@ -28,8 +28,8 @@ const montserrat = localFont({
 const rules = [
   // Ядерные физика и технологии
   { keyword: 'ядерн', direction: 'Ядерные физика и технологии', weight: 2 },
-  { keyword: 'радиац', direction: 'Ядерные физика и технологии', weight: 2 },
-  { keyword: 'физика ядра', direction: 'Ядерные физика и технологии', weight: 2 },
+  { keyword: 'радиац', direction: 'Ядерные физика и технологии', weight: 10 },
+  { keyword: 'физика ядра', direction: 'Ядерные физика и технологии', weight: 10 },
   { keyword: 'защита', direction: 'Ядерные физика и технологии', weight: 2 },
   { keyword: 'частиц', direction: 'Ядерные физика и технологии', weight: 2 },
 
@@ -113,8 +113,8 @@ const rules = [
   // Прикладные математика и физика
   { keyword: 'квантовые вычисления', direction: 'Прикладные математика и физика', weight: 5 },
   { keyword: 'программирование', direction: 'Прикладные математика и физика', weight: 2 },
-  { keyword: 'математика', direction: 'Прикладные математика и физика', weight: 2 },
-  { keyword: 'физика', direction: 'Прикладные математика и физика', weight: 2 },
+  { keyword: 'математика', direction: 'Прикладные математика и физика', weight: 5 },
+  { keyword: 'физика', direction: 'Прикладные математика и физика', weight: 5 },
   { keyword: 'исследование', direction: 'Прикладные математика и физика', weight: 2 },
 ];
 
@@ -731,7 +731,7 @@ export default function QuizApp() {
                   <ResponsiveContainer>
                     <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 20 }}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis type="number" domain={[0, 3]} />
+                      <XAxis type="number" hide={true} />
                       <YAxis type="category" dataKey="direction" tick={{ fontSize: 14 }} width={220} />
                       <Bar dataKey="value" fill="#6366f1" isAnimationActive={true} radius={[0, 10, 10, 0]}>
                         {chartData.map((entry: { direction: string; value: number }, index: number) => (

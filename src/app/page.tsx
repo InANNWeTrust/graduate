@@ -3,12 +3,14 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
+  Cell,
 } from 'recharts';
 
 const questions = [
@@ -29,53 +31,41 @@ const rules = [
   { keyword: 'радиаци', direction: 'Ядерные физика и технологии' },
   { keyword: 'нейтрон', direction: 'Ядерные физика и технологии' },
   { keyword: 'защитные оболочки', direction: 'Ядерные физика и технологии' },
-
   { keyword: 'реактор', direction: 'Ядерные реакторы и материалы' },
   { keyword: 'топливо', direction: 'Ядерные реакторы и материалы' },
   { keyword: 'реакторный зал', direction: 'Ядерные реакторы и материалы' },
-
   { keyword: 'реагент', direction: 'Химическая технология' },
   { keyword: 'вещество', direction: 'Химическая технология' },
   { keyword: 'синтез', direction: 'Химическая технология' },
-
   { keyword: 'переработка урана', direction: 'Химическая технология материалов современной энергетики' },
   { keyword: 'энергетики', direction: 'Химическая технология материалов современной энергетики' },
   { keyword: 'уран', direction: 'Химическая технология материалов современной энергетики' },
-
   { keyword: 'организм', direction: 'Биотехнические системы и технологии' },
   { keyword: 'здоровье', direction: 'Биотехнические системы и технологии' },
   { keyword: 'биомедицина', direction: 'Биотехнические системы и технологии' },
   { keyword: 'биосенсор', direction: 'Биотехнические системы и технологии' },
   { keyword: 'живым существам', direction: 'Биотехнические системы и технологии' },
-
   { keyword: 'микроконтроллер', direction: 'Электроника и наноэлектроника' },
   { keyword: 'электроника', direction: 'Электроника и наноэлектроника' },
   { keyword: 'схемами', direction: 'Электроника и наноэлектроника' },
-
   { keyword: 'физическая установка', direction: 'Электроника и автоматика физических установок' },
   { keyword: 'сигнальные индикаторы', direction: 'Электроника и автоматика физических установок' },
   { keyword: 'автоматика', direction: 'Электроника и автоматика физических установок' },
-
   { keyword: 'контроль', direction: 'Инженерия неразрушающего контроля' },
   { keyword: 'дефекты', direction: 'Инженерия неразрушающего контроля' },
   { keyword: 'диагностика', direction: 'Инженерия неразрушающего контроля' },
-
   { keyword: 'нано', direction: 'Наноинженерия' },
   { keyword: 'наномир', direction: 'Наноинженерия' },
   { keyword: 'микроустройства', direction: 'Наноинженерия' },
-
   { keyword: 'математика', direction: 'Прикладные математика и физика' },
   { keyword: 'аналитически', direction: 'Прикладные математика и физика' },
   { keyword: 'формула', direction: 'Прикладные математика и физика' },
-
   { keyword: 'информатика', direction: 'Информационные системы и технологии' },
   { keyword: 'данных', direction: 'Информационные системы и технологии' },
   { keyword: 'цифровых решений', direction: 'Информационные системы и технологии' },
-
   { keyword: 'качество', direction: 'Управление качеством' },
   { keyword: 'производстве', direction: 'Управление качеством' },
   { keyword: 'надёжность', direction: 'Управление качеством' },
-
   { keyword: 'инновации', direction: 'Инноватика' },
   { keyword: 'интерфейс', direction: 'Инноватика' },
   { keyword: 'цифровой двойник', direction: 'Инноватика' },
@@ -102,8 +92,7 @@ export default function QuizApp() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<string | null>(null);
-  type DirectionScore = { direction: string; value: number };
-  const [chartData, setChartData] = useState<DirectionScore[]>([]);
+  const [chartData, setChartData] = useState<{ direction: string; value: number }[]>([]);
 
   const handleAnswer = (answer: string) => {
     const newAnswers = [...answers, answer];
@@ -166,14 +155,19 @@ export default function QuizApp() {
               <h2 className="text-3xl font-bold mb-4">✨ Тебе подходит направление:</h2>
               <p className="text-2xl mb-6">{result}</p>
               {chartData.length > 0 && (
-                <div className="w-full h-[400px] mb-6">
+                <div className="w-full h-[300px] mb-6">
                   <ResponsiveContainer>
-                    <RadarChart data={chartData}>
-                      <PolarGrid />
-                      <PolarAngleAxis dataKey="direction" tick={{ fontSize: 12 }} />
-                      <PolarRadiusAxis angle={30} domain={[0, 3]} />
-                      <Radar name="Твоя совместимость" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                    </RadarChart>
+                    <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 20 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis type="number" domain={[0, 3]} />
+                      <YAxis type="category" dataKey="direction" tick={{ fontSize: 14 }} width={220} />
+                      <Tooltip />
+                      <Bar dataKey="value" fill="#6366f1" isAnimationActive radius={[0, 10, 10, 0]}>
+                        {chartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill="#6366f1" />
+                        ))}
+                      </Bar>
+                    </BarChart>
                   </ResponsiveContainer>
                 </div>
               )}

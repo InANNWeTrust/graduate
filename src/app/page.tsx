@@ -3,14 +3,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-  Cell,
-} from 'recharts';
 import confetti from 'canvas-confetti';
 import localFont from 'next/font/local';
 
@@ -24,97 +16,67 @@ const montserrat = localFont({
   ],
 });
 
-const rules = [
-  // Ядерные физика и технологии
-  { keyword: 'ядерн', direction: 'Ядерные физика и технологии', weight: 10 },
-  { keyword: 'радиац', direction: 'Ядерные физика и технологии', weight: 10 },
-  { keyword: 'физика ядра', direction: 'Ядерные физика и технологии', weight: 10 },
-  { keyword: 'защита', direction: 'Ядерные физика и технологии', weight: 2 },
-  { keyword: 'частиц', direction: 'Ядерные физика и технологии', weight: 2 },
+type Track = 'Физический' | 'Химический' | 'IT + биотех';
 
-  // Ядерные реакторы и материалы
-  { keyword: 'реактор', direction: 'Ядерные реакторы и материалы', weight: 10 },
-  { keyword: 'топлив', direction: 'Ядерные реакторы и материалы', weight: 2 },
-  { keyword: 'энергетик', direction: 'Ядерные реакторы и материалы', weight: 2 },
-  { keyword: 'производств', direction: 'Ядерные реакторы и материалы', weight: 2 },
-  { keyword: 'безопасность', direction: 'Ядерные реакторы и материалы', weight: 10 },
+const rules: { keyword: string; track: Track; weight: number }[] = [
+  // Физический трек
+  { keyword: 'ядерн', track: 'Физический', weight: 10 },
+  { keyword: 'радиац', track: 'Физический', weight: 10 },
+  { keyword: 'физика ядра', track: 'Физический', weight: 10 },
+  { keyword: 'защита', track: 'Физический', weight: 2 },
+  { keyword: 'частиц', track: 'Физический', weight: 2 },
+  { keyword: 'реактор', track: 'Физический', weight: 10 },
+  { keyword: 'топлив', track: 'Физический', weight: 2 },
+  { keyword: 'энергетик', track: 'Физический', weight: 2 },
+  { keyword: 'производств', track: 'Физический', weight: 2 },
+  { keyword: 'безопасность', track: 'Физический', weight: 10 },
+  { keyword: 'электрон', track: 'Физический', weight: 10 },
+  { keyword: 'схем', track: 'Физический', weight: 2 },
+  { keyword: 'нано', track: 'Физический', weight: 2 },
+  { keyword: 'микроскоп', track: 'Физический', weight: 2 },
+  { keyword: 'микро', track: 'Физический', weight: 10 },
+  { keyword: 'автомат', track: 'Физический', weight: 10 },
+  { keyword: 'датчик', track: 'Физический', weight: 2 },
+  { keyword: 'контрол', track: 'Физический', weight: 2 },
+  { keyword: 'установк', track: 'Физический', weight: 10 },
+  { keyword: 'систем', track: 'Физический', weight: 2 },
+  { keyword: 'дефектоскопия', track: 'Физический', weight: 10 },
+  { keyword: 'ультразвук', track: 'Физический', weight: 10 },
+  { keyword: 'визуальный осмотр', track: 'Физический', weight: 10 },
+  { keyword: 'измерения', track: 'Физический', weight: 10 },
+  { keyword: 'надежность', track: 'Физический', weight: 10 },
+  { keyword: 'квантовые вычисления', track: 'Физический', weight: 10 },
+  { keyword: 'математика', track: 'Физический', weight: 10 },
+  { keyword: 'физика', track: 'Физический', weight: 10 },
+  { keyword: 'исследов', track: 'Физический', weight: 10 },
 
-  // Химическая технология
-  { keyword: 'хими', direction: 'Химическая технология', weight: 10 },
-  { keyword: 'реагент', direction: 'Химическая технология', weight: 10 },
-  { keyword: 'раствор', direction: 'Химическая технология', weight: 2 },
-  { keyword: 'вещест', direction: 'Химическая технология', weight: 2 },
-  { keyword: 'лаборатор', direction: 'Химическая технология', weight: 2 },
+  // Химический трек
+  { keyword: 'хими', track: 'Химический', weight: 10 },
+  { keyword: 'реагент', track: 'Химический', weight: 10 },
+  { keyword: 'раствор', track: 'Химический', weight: 2 },
+  { keyword: 'вещест', track: 'Химический', weight: 2 },
+  { keyword: 'лаборатор', track: 'Химический', weight: 2 },
+  { keyword: 'материал', track: 'Химический', weight: 10 },
+  { keyword: 'процесс', track: 'Химический', weight: 2 },
+  { keyword: 'технолог', track: 'Химический', weight: 2 },
+  { keyword: 'стандарт', track: 'Химический', weight: 2 },
+  { keyword: 'качеств', track: 'Химический', weight: 2 },
 
-  // Химическая технология материалов современной энергетики
-  { keyword: 'материал', direction: 'Химическая технология материалов современной энергетики', weight: 10 },
-  { keyword: 'процесс', direction: 'Химическая технология материалов современной энергетики', weight: 2 },
-  { keyword: 'технолог', direction: 'Химическая технология материалов современной энергетики', weight: 2 },
-  { keyword: 'стандарт', direction: 'Химическая технология материалов современной энергетики', weight: 2 },
-  { keyword: 'качеств', direction: 'Химическая технология материалов современной энергетики', weight: 2 },
-
-  // Биотехнические системы и технологии
-  { keyword: 'био', direction: 'Биотехнические системы и технологии', weight: 2 },
-  { keyword: 'медиц', direction: 'Биотехнические системы и технологии', weight: 2 },
-  { keyword: 'организм', direction: 'Биотехнические системы и технологии', weight: 2 },
-  { keyword: 'биоинженер', direction: 'Биотехнические системы и технологии', weight: 10 },
-  { keyword: 'биомедицин', direction: 'Биотехнические системы и технологии', weight: 10 },
-
-  // Электроника и наноэлектроника
-  { keyword: 'электрон', direction: 'Электроника и наноэлектроника', weight: 10 },
-  { keyword: 'схем', direction: 'Электроника и наноэлектроника', weight: 2 },
-  { keyword: 'нано', direction: 'Электроника и наноэлектроника', weight: 2 },
-  { keyword: 'микроскоп', direction: 'Электроника и наноэлектроника', weight: 2 },
-  { keyword: 'микро', direction: 'Электроника и наноэлектроника', weight: 10 },
-
-  // Электроника и автоматика физических установок
-  { keyword: 'автомат', direction: 'Электроника и автоматика физических установок', weight: 10 },
-  { keyword: 'датчик', direction: 'Электроника и автоматика физических установок', weight: 2 },
-  { keyword: 'контрол', direction: 'Электроника и автоматика физических установок', weight: 2 },
-  { keyword: 'установк', direction: 'Электроника и автоматика физических установок', weight: 10 },
-  { keyword: 'систем', direction: 'Электроника и автоматика физических установок', weight: 2 },
-
-// Инженерия неразрушающего контроля
-{ keyword: 'дефектоскопия', direction: 'Инженерия неразрушающего контроля', weight: 10 },
-{ keyword: 'ультразвук', direction: 'Инженерия неразрушающего контроля', weight: 10 },
-{ keyword: 'визуальный осмотр', direction: 'Инженерия неразрушающего контроля', weight: 10 },
-{ keyword: 'измерения', direction: 'Инженерия неразрушающего контроля', weight: 10 },
-{ keyword: 'надежность', direction: 'Инженерия неразрушающего контроля', weight: 10 },
-
-  // Наноинженерия
-  { keyword: 'нано', direction: 'Наноинженерия', weight: 10 },
-  { keyword: 'микроскоп', direction: 'Наноинженерия', weight: 10 },
-  { keyword: 'материал', direction: 'Наноинженерия', weight: 2 },
-  { keyword: 'технолог', direction: 'Наноинженерия', weight: 2 },
-  { keyword: 'микро', direction: 'Наноинженерия', weight: 10 },
-
-  // Информационные системы и технологии
-  { keyword: 'информацион', direction: 'Информационные системы и технологии', weight: 10 },
-  { keyword: 'цифров', direction: 'Информационные системы и технологии', weight: 10 },
-  { keyword: 'программ', direction: 'Информационные системы и технологии', weight: 2 },
-  { keyword: 'алгоритм', direction: 'Информационные системы и технологии', weight: 10 },
-  { keyword: 'технолог', direction: 'Информационные системы и технологии', weight: 2 },
-
-  // Инноватика
-  { keyword: 'патент', direction: 'Инноватика', weight: 10 },
-  { keyword: 'стартап', direction: 'Инноватика', weight: 10 },
-  { keyword: 'инновации', direction: 'Инноватика', weight: 10 },
-  { keyword: 'разработка', direction: 'Инноватика', weight: 2 },
-  { keyword: 'технологии', direction: 'Инноватика', weight: 2 },
-
-  // Управление качеством
-  { keyword: 'бережливое производство', direction: 'Управление качеством', weight: 10 },
-  { keyword: 'стандарты', direction: 'Управление качеством', weight: 10 },
-  { keyword: 'качество', direction: 'Управление качеством', weight: 10 },
-  { keyword: 'управление', direction: 'Управление качеством', weight: 10 },
-  { keyword: 'эффективность', direction: 'Управление качеством', weight: 2 },
-
-  // Прикладные математика и физика
-  { keyword: 'квантовые вычисления', direction: 'Прикладные математика и физика', weight: 10 },
-  { keyword: 'программирование', direction: 'Прикладные математика и физика', weight: 2 },
-  { keyword: 'математика', direction: 'Прикладные математика и физика', weight: 10 },
-  { keyword: 'физика', direction: 'Прикладные математика и физика', weight: 10 },
-  { keyword: 'исследов', direction: 'Прикладные математика и физика', weight: 10 },
+  // IT + биотех трек
+  { keyword: 'био', track: 'IT + биотех', weight: 2 },
+  { keyword: 'медиц', track: 'IT + биотех', weight: 2 },
+  { keyword: 'организм', track: 'IT + биотех', weight: 2 },
+  { keyword: 'биоинженер', track: 'IT + биотех', weight: 10 },
+  { keyword: 'биомедицин', track: 'IT + биотех', weight: 10 },
+  { keyword: 'информацион', track: 'IT + биотех', weight: 10 },
+  { keyword: 'цифров', track: 'IT + биотех', weight: 10 },
+  { keyword: 'программ', track: 'IT + биотех', weight: 2 },
+  { keyword: 'алгоритм', track: 'IT + биотех', weight: 10 },
+  { keyword: 'патент', track: 'IT + биотех', weight: 6 },
+  { keyword: 'стартап', track: 'IT + биотех', weight: 6 },
+  { keyword: 'инновации', track: 'IT + биотех', weight: 6 },
+  { keyword: 'разработка', track: 'IT + биотех', weight: 2 },
+  { keyword: 'программирование', track: 'IT + биотех', weight: 6 },
 ];
 
 const questions = [
@@ -224,19 +186,22 @@ const questions = [
 
 function getScores(answers: string[]) {
   const text = answers.join(' ').toLowerCase();
-  const scoreMap: Record<string, number> = {};
+  const scoreMap: Record<Track, number> = {
+    'Физический': 0,
+    'Химический': 0,
+    'IT + биотех': 0,
+  };
   for (const rule of rules) {
     if (text.includes(rule.keyword.toLowerCase())) {
-      scoreMap[rule.direction] = (scoreMap[rule.direction] || 0) + rule.weight;
+      scoreMap[rule.track] += rule.weight;
     }
   }
   return scoreMap;
 }
 
-function getTopDirections(scoreMap: Record<string, number>, topN = 3) {
-  const entries = Object.entries(scoreMap);
-  if (entries.length === 0) return [];
-  return entries.sort((a, b) => b[1] - a[1]).slice(0, topN);
+function getTopTrack(scoreMap: Record<Track, number>): Track {
+  const entries = Object.entries(scoreMap) as [Track, number][];
+  return entries.sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'Физический';
 }
 
 interface ConfettiOptions {
@@ -507,7 +472,6 @@ export default function QuizApp() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<string | null>(null);
-  const [chartData, setChartData] = useState<{ direction: string; value: number }[]>([]);
   const [showSplash, setShowSplash] = useState(true);
   const [selectedOptions, setSelectedOptions] = useState<string[][]>(Array(questions.length).fill([]));
 
@@ -584,9 +548,8 @@ export default function QuizApp() {
 
     if (step + 1 === questions.length) {
       const scores = getScores(newAnswers);
-      const top5 = getTopDirections(scores, 5);
-      setResult(top5.map(([direction]) => direction).join(', ') || 'Ты особенный! Придумай своё направление 😊');
-      setChartData(top5.map(([direction, value]) => ({ direction, value })));
+      const topTrack = getTopTrack(scores);
+      setResult(topTrack);
       setTimeout(triggerConfetti, 500);
     } else {
       setStep(step + 1);
@@ -598,13 +561,11 @@ export default function QuizApp() {
     setStep(0);
     setAnswers([]);
     setResult(null);
-    setChartData([]);
     setSelectedOptions(Array(questions.length).fill([]));
     console.log('State after restart:', {
       step: 0,
       answers: [],
       result: null,
-      chartData: [],
       selectedOptions: Array(questions.length).fill([]),
     });
   };
@@ -718,30 +679,9 @@ export default function QuizApp() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <h2 className="text-3xl font-bold mb-4 text-gray-900">✨ Тебе подходит направление:</h2>
+                <h2 className="text-3xl font-bold mb-4 text-gray-900">✨ Тебе подходит трек:</h2>
                 <p className="text-2xl mb-6 text-green-600 font-bold">{result}</p>
               </motion.div>
-              
-              {chartData.length > 0 && (
-                <motion.div 
-                  className="w-full h-[300px] mb-6"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                >
-                  <ResponsiveContainer>
-                    <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 20 }}>
-                      <XAxis type="number" hide={true} />
-                      <YAxis type="category" dataKey="direction" tick={{ fontSize: 14 }} width={220} />
-                      <Bar dataKey="value" fill="#6366f1" isAnimationActive={true} radius={[0, 10, 10, 0]}>
-                        {chartData.map((entry: { direction: string; value: number }, index: number) => (
-                          <Cell key={`cell-${index}`} fill={`hsl(${220 + index * 20}, 70%, 60%)`} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                </motion.div>
-              )}
               
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import localFont from 'next/font/local';
-import Image from 'next/image';
 
 const montserrat = localFont({
   src: [
@@ -40,6 +39,9 @@ const score = (it: number, physical: number, chemical: number): TrackScore => ({
   'Физический': physical,
   'Химический': chemical,
 });
+
+const uiAccent = 'bg-[linear-gradient(90deg,#173E75_0%,#DB3931_100%)]';
+const uiAccentText = 'bg-[linear-gradient(90deg,#173E75_0%,#DB3931_100%)] bg-clip-text text-transparent';
 
 const questions: QuizQuestion[] = [
   {
@@ -126,18 +128,21 @@ const questions: QuizQuestion[] = [
   },
 ];
 
-const trackMemes: Record<Track, { src: string; caption: string }> = {
+const trackQuotes: Record<Track, { quote: string; author: string; glow: string }> = {
   'IT + биотех': {
-    src: '/memes/it-bio-collage.svg',
-    caption: 'Когда модель наконец сошлась, а ты просто хотел проверить один параметр',
+    quote: 'Те, кто достаточно безумен, чтобы думать, что могут изменить мир, обычно именно это и делают.',
+    author: 'Стив Джобс',
+    glow: 'shadow-[0_24px_80px_rgba(16,185,129,0.22)]',
   },
   'Физический': {
-    src: '/memes/physics-collage.svg',
-    caption: 'Когда подкрутил схему на 0.1 и внезапно почувствовал себя гением',
+    quote: 'Важно не переставать задавать вопросы.',
+    author: 'Альберт Эйнштейн',
+    glow: 'shadow-[0_24px_80px_rgba(250,204,21,0.22)]',
   },
   'Химический': {
-    src: '/memes/chem-collage.svg',
-    caption: 'Когда раствор стал нужного цвета, и день автоматически удался',
+    quote: 'В жизни нечего бояться, её нужно только понять.',
+    author: 'Мария Склодовская-Кюри',
+    glow: 'shadow-[0_24px_80px_rgba(74,222,128,0.22)]',
   },
 };
 
@@ -448,7 +453,7 @@ export default function QuizApp() {
   const isMultiSelectStep = step === 0;
   const isNextEnabled = selectedOptions[step].length > 0;
   const resultTrack = result as Track | null;
-  const resultMeme = resultTrack ? trackMemes[resultTrack] : null;
+  const resultQuote = resultTrack ? trackQuotes[resultTrack] : null;
 
   if (showSplash) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
@@ -489,22 +494,33 @@ export default function QuizApp() {
               <p className="text-sm text-gray-500 mb-4">{isMultiSelectStep ? 'Можно выбрать несколько вариантов' : 'Выбери один вариант'}</p>
               <div className="grid gap-4">
                 {quizQuestions[step].options.map((opt, idx) => (
-                  <motion.button
+                  <motion.div
                     key={idx}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.1 }}
                     whileHover={{ 
                       scale: 1.02,
-                      backgroundColor: '#f0fdf4',
                       transition: { duration: 0.2 }
                     }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => handleOptionSelect(opt, step)}
-                    className={`shadow-xl border rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 text-gray-900 ${selectedOptions[step].some((selected) => selected.text === opt.text) ? 'bg-green-100 border-2 border-green-500' : 'bg-white border border-gray-300 hover:bg-green-100 hover:border-green-500 hover:border-2'}`}
+                    className={`rounded-xl p-[2px] shadow-xl transition-all duration-300 ${
+                      selectedOptions[step].some((selected) => selected.text === opt.text)
+                        ? uiAccent
+                        : 'bg-gray-300 hover:bg-[linear-gradient(90deg,#173E75_0%,#DB3931_100%)]'
+                    }`}
                   >
-                    {opt.text}
-                  </motion.button>
+                    <button
+                      onClick={() => handleOptionSelect(opt, step)}
+                      className={`w-full rounded-[10px] py-4 px-6 text-lg font-semibold transition-all duration-300 ${
+                        selectedOptions[step].some((selected) => selected.text === opt.text)
+                          ? `${uiAccent} text-white shadow-lg`
+                          : 'bg-white text-gray-900 hover:bg-[linear-gradient(90deg,#173E75_0%,#DB3931_100%)] hover:text-white'
+                      }`}
+                    >
+                      {opt.text}
+                    </button>
+                  </motion.div>
                 ))}
               </div>
               <div className="flex justify-center gap-2 mt-8">
@@ -518,9 +534,9 @@ export default function QuizApp() {
                     }}
                     className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
                       index < step 
-                        ? 'bg-green-500 border-green-600 scale-110' 
+                        ? 'bg-[#DB3931] border-[#173E75] scale-110' 
                         : index === step 
-                        ? 'bg-white border-green-500 scale-125' 
+                        ? 'bg-white border-[#DB3931] scale-125' 
                         : 'bg-white border-gray-400'
                     }`}
                   ></motion.div>
@@ -532,7 +548,7 @@ export default function QuizApp() {
                   disabled={!isNextEnabled}
                   className={`${
                     isNextEnabled
-                      ? 'bg-gradient-to-r from-green-500 to-green-600 text-white'
+                      ? `${uiAccent} text-white`
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   } text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold`}
                 >
@@ -559,22 +575,30 @@ export default function QuizApp() {
                 transition={{ delay: 0.3 }}
               >
                 <h2 className="text-2xl font-bold mb-3 text-gray-900">✨ Тебе подходит трек:</h2>
-                <p className="text-5xl md:text-6xl mb-6 text-green-600 font-extrabold">{result}</p>
-                {resultMeme && (
+                <p className={`mb-6 text-5xl font-extrabold md:text-6xl ${uiAccentText}`}>
+                  {result}
+                </p>
+                {resultQuote && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="mb-6"
+                    className={`relative mb-10 overflow-hidden rounded-[30px] border border-white/45 bg-white/20 p-8 text-left backdrop-blur-2xl ${resultQuote.glow}`}
                   >
-                    <Image
-                      src={resultMeme.src}
-                      alt={resultTrack || 'track meme'}
-                      width={1200}
-                      height={630}
-                      className="w-full h-auto rounded-xl border border-gray-200 shadow-md"
-                    />
-                    
+                    <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.3),rgba(255,255,255,0.08))]" />
+                    <div className="absolute -right-10 -top-12 h-36 w-36 rounded-full bg-white/25 blur-3xl" />
+                    <div className="absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-white/20 blur-3xl" />
+                    <div className="relative">
+                      <blockquote className="relative max-w-3xl pl-16 pt-3 text-lg font-medium leading-relaxed text-gray-900 md:pl-20 md:text-xl">
+                        <span className={`absolute left-0 top-[-14px] text-[6.5rem] font-semibold leading-none opacity-90 md:top-[-20px] md:text-[8rem] ${uiAccentText}`}>
+                          &ldquo;
+                        </span>
+                        {resultQuote.quote}
+                      </blockquote>
+                      <p className="mt-7 text-right text-xl font-bold tracking-[0.04em] text-gray-700 md:text-2xl">
+                        {resultQuote.author}
+                      </p>
+                    </div>
                   </motion.div>
                 )}
               </motion.div>
@@ -587,7 +611,7 @@ export default function QuizApp() {
               >
                 <button
                   onClick={restart}
-                  className="bg-gradient-to-r from-green-500 to-green-600 text-white text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold"
+                  className={`${uiAccent} text-white text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold`}
                 >
                   Пройти ещё раз
                 </button>

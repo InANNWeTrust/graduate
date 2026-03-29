@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import localFont from 'next/font/local';
+import Image from 'next/image';
 
 const montserrat = localFont({
   src: [
@@ -17,186 +17,146 @@ const montserrat = localFont({
 });
 
 type Track = 'Физический' | 'Химический' | 'IT + биотех';
+type TrackScore = Record<Track, number>;
 
-const rules: { keyword: string; track: Track; weight: number }[] = [
-  // Физический трек
-  { keyword: 'ядерн', track: 'Физический', weight: 10 },
-  { keyword: 'радиац', track: 'Физический', weight: 10 },
-  { keyword: 'физика ядра', track: 'Физический', weight: 10 },
-  { keyword: 'защита', track: 'Физический', weight: 2 },
-  { keyword: 'частиц', track: 'Физический', weight: 2 },
-  { keyword: 'реактор', track: 'Физический', weight: 10 },
-  { keyword: 'топлив', track: 'Физический', weight: 2 },
-  { keyword: 'энергетик', track: 'Физический', weight: 2 },
-  { keyword: 'производств', track: 'Физический', weight: 2 },
-  { keyword: 'безопасность', track: 'Физический', weight: 10 },
-  { keyword: 'электрон', track: 'Физический', weight: 10 },
-  { keyword: 'схем', track: 'Физический', weight: 2 },
-  { keyword: 'нано', track: 'Физический', weight: 2 },
-  { keyword: 'микроскоп', track: 'Физический', weight: 2 },
-  { keyword: 'микро', track: 'Физический', weight: 10 },
-  { keyword: 'автомат', track: 'Физический', weight: 10 },
-  { keyword: 'датчик', track: 'Физический', weight: 2 },
-  { keyword: 'контрол', track: 'Физический', weight: 2 },
-  { keyword: 'установк', track: 'Физический', weight: 10 },
-  { keyword: 'систем', track: 'Физический', weight: 2 },
-  { keyword: 'дефектоскопия', track: 'Физический', weight: 10 },
-  { keyword: 'ультразвук', track: 'Физический', weight: 10 },
-  { keyword: 'визуальный осмотр', track: 'Физический', weight: 10 },
-  { keyword: 'измерения', track: 'Физический', weight: 10 },
-  { keyword: 'надежность', track: 'Физический', weight: 10 },
-  { keyword: 'квантовые вычисления', track: 'Физический', weight: 10 },
-  { keyword: 'математика', track: 'Физический', weight: 10 },
-  { keyword: 'физика', track: 'Физический', weight: 10 },
-  { keyword: 'исследов', track: 'Физический', weight: 10 },
+type QuizOption = {
+  text: string;
+  score: TrackScore;
+};
 
-  // Химический трек
-  { keyword: 'хими', track: 'Химический', weight: 10 },
-  { keyword: 'реагент', track: 'Химический', weight: 10 },
-  { keyword: 'раствор', track: 'Химический', weight: 2 },
-  { keyword: 'вещест', track: 'Химический', weight: 2 },
-  { keyword: 'лаборатор', track: 'Химический', weight: 2 },
-  { keyword: 'материал', track: 'Химический', weight: 10 },
-  { keyword: 'процесс', track: 'Химический', weight: 2 },
-  { keyword: 'технолог', track: 'Химический', weight: 2 },
-  { keyword: 'стандарт', track: 'Химический', weight: 2 },
-  { keyword: 'качеств', track: 'Химический', weight: 2 },
+type QuizQuestion = {
+  q: string;
+  options: QuizOption[];
+};
 
-  // IT + биотех трек
-  { keyword: 'био', track: 'IT + биотех', weight: 2 },
-  { keyword: 'медиц', track: 'IT + биотех', weight: 2 },
-  { keyword: 'организм', track: 'IT + биотех', weight: 2 },
-  { keyword: 'биоинженер', track: 'IT + биотех', weight: 10 },
-  { keyword: 'биомедицин', track: 'IT + биотех', weight: 10 },
-  { keyword: 'информацион', track: 'IT + биотех', weight: 10 },
-  { keyword: 'цифров', track: 'IT + биотех', weight: 10 },
-  { keyword: 'программ', track: 'IT + биотех', weight: 2 },
-  { keyword: 'алгоритм', track: 'IT + биотех', weight: 10 },
-  { keyword: 'патент', track: 'IT + биотех', weight: 6 },
-  { keyword: 'стартап', track: 'IT + биотех', weight: 6 },
-  { keyword: 'инновации', track: 'IT + биотех', weight: 6 },
-  { keyword: 'разработка', track: 'IT + биотех', weight: 2 },
-  { keyword: 'программирование', track: 'IT + биотех', weight: 6 },
-];
+const baseScore = (): TrackScore => ({
+  'Физический': 0,
+  'Химический': 0,
+  'IT + биотех': 0,
+});
 
-const questions = [
+const score = (it: number, physical: number, chemical: number): TrackScore => ({
+  'IT + биотех': it,
+  'Физический': physical,
+  'Химический': chemical,
+});
+
+const questions: QuizQuestion[] = [
   {
-    q: "Какой школьный предмет тебе ближе всего?",
+    q: 'Какие предметы тебе правда нравятся?',
     options: [
-      "Физика и ядерные технологии",
-      "Химия и технологии веществ",
-      "Информатика и алгоритмы",
-      "Биология и медицина",
-      "Технологии контроля качества и измерений", // <— для НК
-      "Электроника и наноэлектроника", // <— добавлено
+      { text: 'Информатика', score: score(4, 1, 0) },
+      { text: 'Биология', score: score(4, 0, 1) },
+      { text: 'Физика', score: score(1, 4, 1) },
+      { text: 'Химия', score: score(0, 1, 4) },
+      { text: 'Математика', score: score(2, 3, 1) },
     ],
   },
   {
-    q: "Какие задачи тебе интереснее всего?",
+    q: 'После уроков ты чаще всего...',
     options: [
-      "Исследовать наноструктуры и материалы",
-      "Писать программы и анализировать данные",
-      "Экспериментировать с реагентами",
-      "Внедрять инновации и стартапы",
-      "Проводить визуальный осмотр и искать дефекты", // <— для НК
-      "Автоматизировать процессы", // <— добавлено
+      { text: 'Сижу за ноутом и собираю что-то умное', score: score(4, 1, 0) },
+      { text: 'Кручу железки и проверяю, как оно работает', score: score(0, 4, 1) },
+      { text: 'Ставлю опыт и ловлю красивую реакцию', score: score(0, 1, 4) },
     ],
   },
   {
-    q: "Какой объект тебе больше привлекает?",
+    q: 'Какой формат задач тебе ближе?',
     options: [
-      "Ядерный реактор и его защита",
-      "Умная электроника и автоматика",
-      "Биосенсор и анализ крови",
-      "IT-интерфейсы и цифровые двойники",
-      "Оборудование для дефектоскопии и ультразвука", // <— для НК
+      { text: 'Найти закономерность в куче данных', score: score(4, 1, 0) },
+      { text: 'Собрать систему, чтобы все было точно и стабильно', score: score(1, 4, 1) },
+      { text: 'Подобрать состав, чтобы получилось как надо', score: score(0, 1, 4) },
     ],
   },
   {
-    q: "Где бы тебе хотелось проводить больше времени?",
+    q: 'Выбери мем-фразу:',
     options: [
-      "В лаборатории с пробирками",
-      "За паяльником и осциллографом",
-      "В медицинском центре",
-      "В стартап-офисе",
-      "На производстве с приборами визуального контроля", // <— для НК
+      { text: 'Я не залип, я дебажу', score: score(4, 0, 0) },
+      { text: 'Если мигает лампочка, значит прогресс есть', score: score(0, 4, 0) },
+      { text: 'Запах лаборатории - мой парфюм', score: score(0, 0, 4) },
     ],
   },
   {
-    q: "Что ты считаешь самым перспективным направлением?",
+    q: 'На экскурсии тебя зацепит в первую очередь...',
     options: [
-      "Атомная энергетика",
-      "Нанотехнологии",
-      "Биомедицина",
-      "Информационные технологии",
-      "Точность измерений и надёжность", // <— для НК
+      { text: 'Экран с графиками и умными показателями', score: score(4, 1, 0) },
+      { text: 'Приборы, датчики и необычные материалы', score: score(0, 4, 1) },
+      { text: 'Колбы, пробирки и аккуратные опыты', score: score(0, 1, 4) },
     ],
   },
   {
-    q: "Какой подход тебе ближе всего?",
+    q: 'Если делать школьный проект, ты выберешь...',
     options: [
-      "Постоянно искать инновации",
-      "Автоматизировать процессы",
-      "Работать в большой команде",
-      "Проектировать новые лекарства",
-      "Внедрять ультразвуковой и визуальный контроль", // <— для НК
+      { text: 'Приложение, которое что-то предсказывает', score: score(4, 0, 1) },
+      { text: 'Устройство, которое реально можно потрогать', score: score(1, 4, 0) },
+      { text: 'Эксперимент с понятным и красивым результатом', score: score(0, 1, 4) },
     ],
   },
   {
-    q: "Какой прибор кажется самым интересным?",
+    q: 'Что звучит как нормальный вечер без скуки?',
     options: [
-      "Лазерный спектрометр",
-      "Автоматизированный анализатор",
-      "Биосенсор",
-      "Микроскоп атомных сил",
-      "Дефектоскоп", // <— для НК
+      { text: 'Код, музыка и еще один запуск модели', score: score(4, 0, 0) },
+      { text: 'Формулы, схемы и чай в термосе', score: score(1, 4, 1) },
+      { text: 'Реактивы, записи в журнал и "ого" в конце', score: score(0, 1, 4) },
     ],
   },
   {
-    q: "Где тебе было бы комфортно работать?",
+    q: 'Какой "рабочий стол" кажется самым уютным?',
     options: [
-      "В IT-компании",
-      "В биомедицинском центре",
-      "В стартапе",
-      "В научном институте",
-      "На производстве с ультразвуковыми и визуальными приборами", // <— для НК
+      { text: 'Ноут, таблички и графики', score: score(4, 1, 0) },
+      { text: 'Платы, приборы и датчики', score: score(0, 4, 1) },
+      { text: 'Пробирки, весы и аккуратные подписи', score: score(0, 1, 4) },
     ],
   },
   {
-    q: "Что бы ты хотел внедрять на производстве?",
+    q: 'Какой результат радует сильнее всего?',
     options: [
-      "Инновационные алгоритмы",
-      "Биотехнологии",
-      "Автоматизированные линии",
-      "Материалы для энергетики",
-      "Системы визуального контроля и измерений", // <— для НК
+      { text: 'Система сама нашла то, что не видно глазом', score: score(4, 0, 1) },
+      { text: 'Все работает точно и без сбоев', score: score(0, 4, 1) },
+      { text: 'Эксперимент повторяется один в один', score: score(0, 1, 4) },
     ],
   },
   {
-    q: "Что для тебя приоритет?",
+    q: 'Куда пойдешь завтра, если выбирать по интересу?',
     options: [
-      "Инновации",
-      "Экономия",
-      "Скорость выполнения",
-      "Производительность",
-      "Надёжность, точность измерений и дефектоскопия", // <— для НК
+      { text: 'Туда, где много данных и умных алгоритмов', score: score(4, 0, 1) },
+      { text: 'Туда, где много приборов и физики вокруг', score: score(0, 4, 1) },
+      { text: 'Туда, где много экспериментов и химии', score: score(0, 1, 4) },
     ],
   },
 ];
 
-function getScores(answers: string[]) {
-  const text = answers.join(' ').toLowerCase();
-  const scoreMap: Record<Track, number> = {
-    'Физический': 0,
-    'Химический': 0,
-    'IT + биотех': 0,
-  };
-  for (const rule of rules) {
-    if (text.includes(rule.keyword.toLowerCase())) {
-      scoreMap[rule.track] += rule.weight;
-    }
+const trackMemes: Record<Track, { src: string; caption: string }> = {
+  'IT + биотех': {
+    src: '/memes/it-bio-collage.svg',
+    caption: 'Когда модель наконец сошлась, а ты просто хотел проверить один параметр',
+  },
+  'Физический': {
+    src: '/memes/physics-collage.svg',
+    caption: 'Когда подкрутил схему на 0.1 и внезапно почувствовал себя гением',
+  },
+  'Химический': {
+    src: '/memes/chem-collage.svg',
+    caption: 'Когда раствор стал нужного цвета, и день автоматически удался',
+  },
+};
+
+function getScores(answers: QuizOption[]) {
+  return answers.reduce<TrackScore>((acc, answer) => {
+    acc['IT + биотех'] += answer.score['IT + биотех'];
+    acc['Физический'] += answer.score['Физический'];
+    acc['Химический'] += answer.score['Химический'];
+    return acc;
+  }, baseScore());
+}
+
+function shuffleOptions(options: QuizOption[]) {
+  const copy = [...options];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
   }
-  return scoreMap;
+  return copy;
 }
 
 function getTopTrack(scoreMap: Record<Track, number>): Track {
@@ -214,17 +174,19 @@ interface ConfettiOptions {
 function SplashScreen({ onComplete }: { onComplete: () => void }) {
   const [showLetters, setShowLetters] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
+  const letters = ['Ф', 'И', 'З', 'Т', 'Е', 'Х'];
+  const framedLetters = new Set(['Ф', 'Т', 'Х']);
 
   const handleClick = () => {
-    if (!showLetters) {
-      setShowLetters(true);
+    if (showLetters) return;
+
+    setShowLetters(true);
+    setTimeout(() => {
+      setFadeOut(true);
       setTimeout(() => {
-        setFadeOut(true);
-        setTimeout(() => {
-          onComplete();
-        }, 1000);
-      }, 3000);
-    }
+        onComplete();
+      }, 900);
+    }, 2400);
   };
 
   return (
@@ -232,33 +194,44 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: fadeOut ? 0 : 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1, ease: "easeInOut" }}
+      transition={{ duration: 0.9, ease: 'easeInOut' }}
       onClick={handleClick}
       className="fixed inset-0 flex flex-col items-center justify-center bg-black cursor-pointer"
     >
-      {/* Атом */}
-      <div className="relative w-64 h-64 mb-8">
-        <svg viewBox="0 0 100 100" className="w-full h-full">
-          {/* Ядро */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{ opacity: [0.25, 0.45, 0.25] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          background:
+            'radial-gradient(circle at 50% 45%, rgba(255,255,255,0.12), rgba(225,26,99,0.18) 35%, rgba(0,0,0,0.95) 70%)',
+        }}
+      />
+
+      <motion.div
+        className="absolute w-[420px] h-[420px] rounded-full border border-white/10"
+        animate={{ scale: [0.95, 1.04, 0.95], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
+      <div className="relative w-64 h-64 mb-8 z-10">
+        <motion.svg
+          viewBox="0 0 100 100"
+          className="w-full h-full"
+          animate={{ rotate: [0, 360] }}
+          transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
+        >
           <motion.circle
             cx="50"
             cy="50"
             r="8"
             fill="white"
-            initial={{ scale: 0.8, opacity: 0.5 }}
-            animate={{ 
-              scale: [0.8, 1, 0.8],
-              opacity: [0.5, 1, 0.5]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
+            initial={{ scale: 0.8, opacity: 0.45 }}
+            animate={{ scale: [0.8, 1.1, 0.8], opacity: [0.45, 1, 0.45] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
           />
-          
-          {/* Орбиты */}
-          {[0, 60, 120].map((rotation) => (
+
+          {[0, 60, 120].map((rotation, idx) => (
             <motion.ellipse
               key={rotation}
               cx="50"
@@ -267,217 +240,126 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
               ry="15"
               fill="none"
               stroke="white"
-              strokeWidth="0.5"
+              strokeWidth="0.9"
               transform={`rotate(${rotation} 50 50)`}
-              initial={{ opacity: 0.3 }}
-              animate={{ 
-                opacity: [0.3, 0.7, 0.3],
-                strokeWidth: [0.5, 1, 0.5]
-              }}
+              initial={{ opacity: 0.2 }}
+              animate={{ opacity: [0.2, 0.65, 0.2], strokeWidth: [0.7, 1.2, 0.7] }}
               transition={{
-                duration: 2,
+                duration: 2.6,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: 'easeInOut',
+                delay: idx * 0.2,
               }}
             />
           ))}
 
-          {/* Электрон */}
-          <motion.circle
-            cx="90"
-            cy="50"
-            r="4"
-            fill="white"
-            initial={{ scale: 0.8, opacity: 0.5 }}
-            animate={{ 
-              scale: [0.8, 1, 0.8],
-              opacity: [0.5, 1, 0.5]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        </svg>
+          {[0, 60, 120].map((rotation, idx) => (
+            <motion.g
+              key={`electron-${rotation}`}
+              style={{ transformOrigin: '50px 50px' }}
+              transform={`rotate(${rotation} 50 50)`}
+              animate={{ rotate: [0, 360] }}
+              transition={{
+                duration: 4 + idx,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            >
+              <motion.circle
+                cx="90"
+                cy="50"
+                r="3.2"
+                fill="#e11a63"
+                animate={{ opacity: [0.5, 1, 0.5], scale: [0.85, 1.2, 0.85] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </motion.g>
+          ))}
+        </motion.svg>
       </div>
 
-      {/* Текст ФИЗТЕХ */}
-      <div className="flex items-center space-x-2">
-        {/* Ф в квадрате */}
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ 
-            boxShadow: ['0 0 15px #e11a63', '0 0 25px #e11a63', '0 0 15px #e11a63'],
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-          className="relative"
-        >
-          <div className="w-14 h-14 border-2 border-[#e11a63] flex items-center justify-center relative">
+      <div className="flex items-center gap-2 z-10">
+        {letters.map((letter, index) => {
+          const framed = framedLetters.has(letter);
+
+          return (
             <motion.div
-              initial={{ opacity: 0.4 }}
-              animate={{ opacity: [0.4, 0.8, 0.4] }}
+              key={letter}
+              initial={{ opacity: 0, y: 10, scale: 0.9 }}
+              animate={
+                framed
+                  ? { opacity: 1, y: 0, scale: 1 }
+                  : showLetters
+                    ? { opacity: 1, y: 0, scale: 1 }
+                    : { opacity: 0.45, y: 0, scale: 1 }
+              }
               transition={{
-                duration: 2,
-                repeat: Infinity,
+                duration: 0.45,
+                delay: showLetters && !framed ? index * 0.1 : 0,
+                ease: 'easeOut',
               }}
-              className="absolute inset-0 border-2 border-[#e11a63] blur-lg"
-            />
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showLetters ? 1 : 0 }}
-              transition={{ duration: 2 }}
-              className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
+              className={framed ? 'relative' : ''}
             >
-              Ф
-            </motion.span>
-          </div>
-        </motion.div>
-
-        {/* И */}
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ 
-            textShadow: ['0 0 15px #fff', '0 0 25px #fff', '0 0 15px #fff'],
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-          className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
-        >
-          И
-        </motion.div>
-
-        {/* З */}
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ 
-            textShadow: ['0 0 15px #fff', '0 0 25px #fff', '0 0 15px #fff'],
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-          className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
-        >
-          З
-        </motion.div>
-
-        {/* Т в квадрате */}
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ 
-            boxShadow: ['0 0 15px #e11a63', '0 0 25px #e11a63', '0 0 15px #e11a63'],
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-          className="relative"
-        >
-          <div className="w-14 h-14 border-2 border-[#e11a63] flex items-center justify-center relative">
-            <motion.div
-              initial={{ opacity: 0.4 }}
-              animate={{ opacity: [0.4, 0.8, 0.4] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
-              className="absolute inset-0 border-2 border-[#e11a63] blur-lg"
-            />
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showLetters ? 1 : 0 }}
-              transition={{ duration: 2 }}
-              className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
-            >
-              Т
-            </motion.span>
-          </div>
-        </motion.div>
-
-        {/* Е */}
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ 
-            textShadow: ['0 0 15px #fff', '0 0 25px #fff', '0 0 15px #fff'],
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-          className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
-        >
-          Е
-        </motion.div>
-
-        {/* Х в квадрате */}
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ 
-            boxShadow: ['0 0 15px #e11a63', '0 0 25px #e11a63', '0 0 15px #e11a63'],
-          }}
-          transition={{ 
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }}
-          className="relative"
-        >
-          <div className="w-14 h-14 border-2 border-[#e11a63] flex items-center justify-center relative">
-            <motion.div
-              initial={{ opacity: 0.4 }}
-              animate={{ opacity: [0.4, 0.8, 0.4] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
-              className="absolute inset-0 border-2 border-[#e11a63] blur-lg"
-            />
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showLetters ? 1 : 0 }}
-              transition={{ duration: 2 }}
-              className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
-            >
-              Х
-            </motion.span>
-          </div>
-        </motion.div>
+              {framed ? (
+                <motion.div
+                  animate={{ boxShadow: ['0 0 10px #e11a63', '0 0 24px #e11a63', '0 0 10px #e11a63'] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  className="w-14 h-14 border-2 border-[#e11a63] flex items-center justify-center"
+                >
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={showLetters ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(4px)' }}
+                    transition={{ duration: 1.1, delay: showLetters ? 0.18 : 0, ease: [0.22, 1, 0.36, 1] }}
+                    className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
+                  >
+                    {letter}
+                  </motion.span>
+                </motion.div>
+              ) : (
+                <motion.span
+                  animate={{ textShadow: ['0 0 8px #fff', '0 0 16px #fff', '0 0 8px #fff'] }}
+                  transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+                  className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
+                >
+                  {letter}
+                </motion.span>
+              )}
+            </motion.div>
+          );
+        })}
       </div>
 
-      {/* Текст для клика */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: showLetters ? 0 : 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-        className="mt-8"
+        initial={{ opacity: 0, y: 16 }}
+        animate={
+          showLetters
+            ? { opacity: 0, y: -8 }
+            : { opacity: [0.45, 1, 0.45], y: [0, -2, 0] }
+        }
+        transition={{ duration: 1.4, repeat: showLetters ? 0 : Infinity, ease: 'easeInOut' }}
+        className="mt-8 z-10"
       >
-        <p className={`text-white text-xs ${montserrat.className}`}>Нажмите, чтобы продолжить</p>
+        <p className={`text-white text-xs tracking-[0.12em] ${montserrat.className}`}>
+          Нажмите, чтобы продолжить
+        </p>
       </motion.div>
     </motion.div>
   );
 }
-
 export default function QuizApp() {
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<QuizOption[]>([]);
   const [result, setResult] = useState<string | null>(null);
   const [showSplash, setShowSplash] = useState(true);
-  const [selectedOptions, setSelectedOptions] = useState<string[][]>(Array(questions.length).fill([]));
-
-  useEffect(() => {
-    console.log('Initial selectedOptions state:', selectedOptions);
-  }, [selectedOptions]);
+  const [quizQuestions] = useState<QuizQuestion[]>(() =>
+    questions.map((question) => ({
+      ...question,
+      options: shuffleOptions(question.options),
+    })),
+  );
+  const [selectedOptions, setSelectedOptions] = useState<QuizOption[][]>(
+    Array.from({ length: questions.length }, () => []),
+  );
 
   const triggerConfetti = () => {
     const count = 200;
@@ -522,31 +404,31 @@ export default function QuizApp() {
     });
   };
 
-  const handleOptionToggle = (option: string, questionIndex: number) => {
-    console.log(`Toggling option: ${option} for question index: ${questionIndex}`);
+  const handleOptionSelect = (option: QuizOption, questionIndex: number) => {
     setSelectedOptions((prev) => {
-      const newSelections = [...prev];
-      const currentSelections = newSelections[questionIndex];
-      if (currentSelections.includes(option)) {
-        newSelections[questionIndex] = currentSelections.filter((opt) => opt !== option);
+      const next = [...prev];
+
+      if (questionIndex === 0) {
+        const exists = next[questionIndex].some((selected) => selected.text === option.text);
+        next[questionIndex] = exists
+          ? next[questionIndex].filter((selected) => selected.text !== option.text)
+          : [...next[questionIndex], option];
       } else {
-        newSelections[questionIndex] = [...currentSelections, option];
+        next[questionIndex] = [option];
       }
-      console.log(`New selections:`, newSelections);
-      return newSelections;
+
+      return next;
     });
   };
 
   const handleNext = () => {
-    const newAnswers = [...answers, ...selectedOptions[step]];
-    setAnswers(newAnswers);
-    setSelectedOptions((prev) => {
-      const newSelections = [...prev];
-      newSelections[step] = [];
-      return newSelections;
-    });
+    const currentAnswers = selectedOptions[step];
+    if (currentAnswers.length === 0) return;
 
-    if (step + 1 === questions.length) {
+    const newAnswers = [...answers, ...currentAnswers];
+    setAnswers(newAnswers);
+
+    if (step + 1 === quizQuestions.length) {
       const scores = getScores(newAnswers);
       const topTrack = getTopTrack(scores);
       setResult(topTrack);
@@ -557,21 +439,16 @@ export default function QuizApp() {
   };
 
   const restart = () => {
-    console.log('Restarting quiz');
     setStep(0);
     setAnswers([]);
     setResult(null);
-    setSelectedOptions(Array(questions.length).fill([]));
-    console.log('State after restart:', {
-      step: 0,
-      answers: [],
-      result: null,
-      selectedOptions: Array(questions.length).fill([]),
-    });
+    setSelectedOptions(Array.from({ length: quizQuestions.length }, () => []));
   };
 
-  // Determine if any options are selected
+  const isMultiSelectStep = step === 0;
   const isNextEnabled = selectedOptions[step].length > 0;
+  const resultTrack = result as Track | null;
+  const resultMeme = resultTrack ? trackMemes[resultTrack] : null;
 
   if (showSplash) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
@@ -607,9 +484,11 @@ export default function QuizApp() {
               >
                 {step + 1}
               </motion.div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">{questions[step].q}</h2>
+              
+              <h2 className="text-2xl md:text-2xl font-bold mb-3 text-gray-900">{quizQuestions[step].q}</h2>
+              <p className="text-sm text-gray-500 mb-4">{isMultiSelectStep ? 'Можно выбрать несколько вариантов' : 'Выбери один вариант'}</p>
               <div className="grid gap-4">
-                {questions[step].options.map((opt, idx) => (
+                {quizQuestions[step].options.map((opt, idx) => (
                   <motion.button
                     key={idx}
                     initial={{ opacity: 0, x: -20 }}
@@ -621,15 +500,15 @@ export default function QuizApp() {
                       transition: { duration: 0.2 }
                     }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => handleOptionToggle(opt, step)}
-                    className={`shadow-xl border rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 text-gray-900 ${selectedOptions[step].includes(opt) ? 'bg-green-100 border-2 border-green-500' : 'bg-white border border-gray-300 hover:bg-green-100 hover:border-green-500 hover:border-2'}`}
+                    onClick={() => handleOptionSelect(opt, step)}
+                    className={`shadow-xl border rounded-xl py-4 px-6 text-lg font-semibold transition-all duration-300 text-gray-900 ${selectedOptions[step].some((selected) => selected.text === opt.text) ? 'bg-green-100 border-2 border-green-500' : 'bg-white border border-gray-300 hover:bg-green-100 hover:border-green-500 hover:border-2'}`}
                   >
-                    {opt}
+                    {opt.text}
                   </motion.button>
                 ))}
               </div>
               <div className="flex justify-center gap-2 mt-8">
-                {questions.map((_, index) => (
+                {quizQuestions.map((_, index) => (
                   <motion.div
                     key={index}
                     initial={{ scale: 0.5 }}
@@ -679,8 +558,25 @@ export default function QuizApp() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <h2 className="text-3xl font-bold mb-4 text-gray-900">✨ Тебе подходит трек:</h2>
-                <p className="text-2xl mb-6 text-green-600 font-bold">{result}</p>
+                <h2 className="text-2xl font-bold mb-3 text-gray-900">✨ Тебе подходит трек:</h2>
+                <p className="text-5xl md:text-6xl mb-6 text-green-600 font-extrabold">{result}</p>
+                {resultMeme && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="mb-6"
+                  >
+                    <Image
+                      src={resultMeme.src}
+                      alt={resultTrack || 'track meme'}
+                      width={1200}
+                      height={630}
+                      className="w-full h-auto rounded-xl border border-gray-200 shadow-md"
+                    />
+                    <p className="mt-3 text-sm text-gray-600">{resultMeme.caption}</p>
+                  </motion.div>
+                )}
               </motion.div>
               
               <motion.div

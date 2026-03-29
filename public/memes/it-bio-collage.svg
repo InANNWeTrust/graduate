@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1024"/>
+      <stop offset="100%" stop-color="#0f4c81"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <circle cx="180" cy="120" r="70" fill="#22d3ee" fill-opacity="0.25"/>
+  <circle cx="1030" cy="640" r="90" fill="#34d399" fill-opacity="0.2"/>
+
+  <rect x="120" y="370" width="420" height="250" rx="22" fill="#0f172a" stroke="#38bdf8" stroke-width="4"/>
+  <rect x="145" y="395" width="370" height="180" rx="12" fill="#111827" stroke="#22d3ee" stroke-width="3"/>
+  <polyline points="170,530 225,500 280,520 340,460 390,490 465,430" fill="none" stroke="#22d3ee" stroke-width="8"/>
+  <rect x="250" y="630" width="165" height="18" rx="9" fill="#0ea5e9"/>
+
+  <path d="M700 210 C760 130, 840 130, 900 210 C840 290, 760 290, 700 210 Z" fill="#67e8f9" fill-opacity="0.2"/>
+  <circle cx="735" cy="210" r="16" fill="#67e8f9"/>
+  <circle cx="865" cy="210" r="16" fill="#67e8f9"/>
+  <path d="M740 260 Q800 320 860 260" fill="none" stroke="#67e8f9" stroke-width="8" stroke-linecap="round"/>
+
+  <path d="M650 420 C690 360, 760 360, 800 420 C760 480, 690 480, 650 420 Z" fill="none" stroke="#86efac" stroke-width="5"/>
+  <path d="M700 380 C740 430, 760 455, 790 470" fill="none" stroke="#86efac" stroke-width="5"/>
+  <path d="M760 380 C720 430, 700 455, 670 470" fill="none" stroke="#86efac" stroke-width="5"/>
+
+  <rect x="830" y="370" width="260" height="170" rx="16" fill="#0f172a" stroke="#34d399" stroke-width="4"/>
+  <polyline points="860,455 900,455 920,415 945,495 970,430 995,455 1050,455" fill="none" stroke="#34d399" stroke-width="6" stroke-linecap="round"/>
+
+  <text x="120" y="110" fill="#e0f2fe" font-size="62" font-family="Arial, sans-serif" font-weight="700">IT + биотех vibe</text>
+</svg>

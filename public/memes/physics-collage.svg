@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" fill="url(#bg2)"/>
+  <circle cx="1030" cy="130" r="80" fill="#facc15" fill-opacity="0.15"/>
+  <circle cx="170" cy="640" r="90" fill="#60a5fa" fill-opacity="0.14"/>
+
+  <circle cx="390" cy="320" r="40" fill="#fde68a"/>
+  <ellipse cx="390" cy="320" rx="200" ry="68" fill="none" stroke="#fde68a" stroke-width="5"/>
+  <ellipse cx="390" cy="320" rx="200" ry="68" fill="none" stroke="#fde68a" stroke-width="5" transform="rotate(60 390 320)"/>
+  <ellipse cx="390" cy="320" rx="200" ry="68" fill="none" stroke="#fde68a" stroke-width="5" transform="rotate(120 390 320)"/>
+  <circle cx="586" cy="320" r="12" fill="#fef08a"/>
+
+  <rect x="670" y="220" width="420" height="250" rx="24" fill="#0b1220" stroke="#fbbf24" stroke-width="4"/>
+  <polyline points="720,390 760,390 790,315 840,450 895,350 950,380 1035,380" fill="none" stroke="#fbbf24" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="840" cy="315" r="8" fill="#fde68a"/>
+  <circle cx="895" cy="350" r="8" fill="#fde68a"/>
+
+  <polygon points="980,520 1120,560 1065,690 930,660" fill="#6b7280" stroke="#d1d5db" stroke-width="4"/>
+  <circle cx="1005" cy="600" r="14" fill="#9ca3af"/>
+  <circle cx="1060" cy="620" r="11" fill="#9ca3af"/>
+
+  <rect x="130" y="520" width="440" height="130" rx="16" fill="#111827" stroke="#60a5fa" stroke-width="4"/>
+  <text x="165" y="600" fill="#bfdbfe" font-size="58" font-family="Arial, sans-serif" font-weight="700">E = mc²</text>
+
+  <text x="120" y="110" fill="#dbeafe" font-size="62" font-family="Arial, sans-serif" font-weight="700">Физический vibe</text>
+</svg>

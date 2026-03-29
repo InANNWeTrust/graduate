@@ -1,31 +1,66 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
   <defs>
-    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#1e3a8a"/>
+    <linearGradient id="phybg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070b17"/>
+      <stop offset="55%" stop-color="#18295b"/>
+      <stop offset="100%" stop-color="#090d19"/>
     </linearGradient>
+    <radialGradient id="fieldGlow" cx="52%" cy="52%" r="45%">
+      <stop offset="0%" stop-color="#ffe27a" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ffe27a" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="fieldBlur">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
   </defs>
-  <rect width="1200" height="760" fill="url(#bg2)"/>
-  <circle cx="1030" cy="130" r="80" fill="#facc15" fill-opacity="0.15"/>
-  <circle cx="170" cy="640" r="90" fill="#60a5fa" fill-opacity="0.14"/>
 
-  <circle cx="390" cy="320" r="40" fill="#fde68a"/>
-  <ellipse cx="390" cy="320" rx="200" ry="68" fill="none" stroke="#fde68a" stroke-width="5"/>
-  <ellipse cx="390" cy="320" rx="200" ry="68" fill="none" stroke="#fde68a" stroke-width="5" transform="rotate(60 390 320)"/>
-  <ellipse cx="390" cy="320" rx="200" ry="68" fill="none" stroke="#fde68a" stroke-width="5" transform="rotate(120 390 320)"/>
-  <circle cx="586" cy="320" r="12" fill="#fef08a"/>
+  <rect width="1200" height="760" fill="url(#phybg)"/>
+  <circle cx="170" cy="610" r="150" fill="#71a6ff" fill-opacity="0.1"/>
+  <circle cx="1010" cy="150" r="150" fill="#ffdb68" fill-opacity="0.1"/>
+  <circle cx="620" cy="380" r="250" fill="url(#fieldGlow)" filter="url(#fieldBlur)"/>
 
-  <rect x="670" y="220" width="420" height="250" rx="24" fill="#0b1220" stroke="#fbbf24" stroke-width="4"/>
-  <polyline points="720,390 760,390 790,315 840,450 895,350 950,380 1035,380" fill="none" stroke="#fbbf24" stroke-width="7" stroke-linecap="round"/>
-  <circle cx="840" cy="315" r="8" fill="#fde68a"/>
-  <circle cx="895" cy="350" r="8" fill="#fde68a"/>
+  <g stroke="#9bc0ff" stroke-width="2.5" fill="none" opacity="0.65">
+    <path d="M95 420 Q250 300 410 420 T730 420"/>
+    <path d="M95 470 Q250 350 410 470 T730 470"/>
+    <path d="M470 120 C570 200, 680 200, 780 120"/>
+    <path d="M760 600 C870 500, 980 510, 1090 600"/>
+  </g>
 
-  <polygon points="980,520 1120,560 1065,690 930,660" fill="#6b7280" stroke="#d1d5db" stroke-width="4"/>
-  <circle cx="1005" cy="600" r="14" fill="#9ca3af"/>
-  <circle cx="1060" cy="620" r="11" fill="#9ca3af"/>
+  <g transform="translate(605 382)" fill="none" stroke-linecap="round">
+    <ellipse rx="280" ry="86" stroke="#ffe68a" stroke-width="5"/>
+    <ellipse rx="280" ry="86" stroke="#ffd24f" stroke-width="5" transform="rotate(60)"/>
+    <ellipse rx="280" ry="86" stroke="#8cc6ff" stroke-width="5" transform="rotate(120)"/>
 
-  <rect x="130" y="520" width="440" height="130" rx="16" fill="#111827" stroke="#60a5fa" stroke-width="4"/>
-  <text x="165" y="600" fill="#bfdbfe" font-size="58" font-family="Arial, sans-serif" font-weight="700">E = mc²</text>
+    <circle r="38" fill="#ffe79b" stroke="#fff3c3" stroke-width="4"/>
+    <circle cx="280" cy="0" r="12" fill="#ffe68a"/>
+    <circle cx="-140" cy="74" r="12" fill="#8cc6ff"/>
+    <circle cx="-140" cy="-74" r="12" fill="#ffd24f"/>
+  </g>
 
-  <text x="120" y="110" fill="#dbeafe" font-size="62" font-family="Arial, sans-serif" font-weight="700">Физический vibe</text>
+  <g stroke="#ffe68a" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M810 235 L980 310 L935 500 L745 530 L680 360 Z"/>
+    <path d="M810 235 L760 140"/>
+    <path d="M980 310 L1080 270"/>
+    <path d="M935 500 L1025 600"/>
+    <path d="M745 530 L700 640"/>
+    <path d="M680 360 L580 360"/>
+  </g>
+
+  <g fill="#0d1426" stroke="#d5e5ff" stroke-width="4">
+    <circle cx="810" cy="235" r="18"/>
+    <circle cx="980" cy="310" r="18"/>
+    <circle cx="935" cy="500" r="18"/>
+    <circle cx="745" cy="530" r="18"/>
+    <circle cx="680" cy="360" r="18"/>
+    <circle cx="760" cy="140" r="12"/>
+    <circle cx="1080" cy="270" r="12"/>
+    <circle cx="1025" cy="600" r="12"/>
+    <circle cx="700" cy="640" r="12"/>
+    <circle cx="580" cy="360" r="12"/>
+  </g>
+
+  <g opacity="0.9">
+    <path d="M125 620 C210 520, 305 710, 395 610 S580 520, 665 620" fill="none" stroke="#73b3ff" stroke-width="8" stroke-linecap="round"/>
+    <path d="M145 655 C230 555, 325 745, 415 645 S600 555, 685 655" fill="none" stroke="#ffdf72" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+  </g>
 </svg>

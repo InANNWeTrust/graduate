@@ -1,30 +1,85 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0b1024"/>
-      <stop offset="100%" stop-color="#0f4c81"/>
+    <linearGradient id="itbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#04111f"/>
+      <stop offset="48%" stop-color="#0c3b4d"/>
+      <stop offset="100%" stop-color="#071b16"/>
     </linearGradient>
+    <radialGradient id="coreGlow" cx="50%" cy="48%" r="42%">
+      <stop offset="0%" stop-color="#d9ff6a" stop-opacity="0.95"/>
+      <stop offset="40%" stop-color="#45f5c8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#45f5c8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="chipLine" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#53f4ff"/>
+      <stop offset="100%" stop-color="#9cff57"/>
+    </linearGradient>
+    <filter id="softBlur">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
   </defs>
-  <rect width="1200" height="760" fill="url(#bg)"/>
-  <circle cx="180" cy="120" r="70" fill="#22d3ee" fill-opacity="0.25"/>
-  <circle cx="1030" cy="640" r="90" fill="#34d399" fill-opacity="0.2"/>
 
-  <rect x="120" y="370" width="420" height="250" rx="22" fill="#0f172a" stroke="#38bdf8" stroke-width="4"/>
-  <rect x="145" y="395" width="370" height="180" rx="12" fill="#111827" stroke="#22d3ee" stroke-width="3"/>
-  <polyline points="170,530 225,500 280,520 340,460 390,490 465,430" fill="none" stroke="#22d3ee" stroke-width="8"/>
-  <rect x="250" y="630" width="165" height="18" rx="9" fill="#0ea5e9"/>
+  <rect width="1200" height="760" fill="url(#itbg)"/>
+  <circle cx="220" cy="150" r="170" fill="#46d9ff" fill-opacity="0.08"/>
+  <circle cx="1020" cy="620" r="180" fill="#8fff69" fill-opacity="0.08"/>
+  <ellipse cx="600" cy="390" rx="330" ry="240" fill="url(#coreGlow)" filter="url(#softBlur)"/>
 
-  <path d="M700 210 C760 130, 840 130, 900 210 C840 290, 760 290, 700 210 Z" fill="#67e8f9" fill-opacity="0.2"/>
-  <circle cx="735" cy="210" r="16" fill="#67e8f9"/>
-  <circle cx="865" cy="210" r="16" fill="#67e8f9"/>
-  <path d="M740 260 Q800 320 860 260" fill="none" stroke="#67e8f9" stroke-width="8" stroke-linecap="round"/>
+  <g opacity="0.6" stroke="#6ce8ff" stroke-width="2">
+    <path d="M110 180 C220 130, 310 210, 390 160 S560 120, 640 180"/>
+    <path d="M550 120 C690 210, 830 120, 990 210"/>
+    <path d="M150 620 C280 510, 420 700, 580 590"/>
+    <path d="M660 590 C790 490, 920 650, 1080 540"/>
+  </g>
 
-  <path d="M650 420 C690 360, 760 360, 800 420 C760 480, 690 480, 650 420 Z" fill="none" stroke="#86efac" stroke-width="5"/>
-  <path d="M700 380 C740 430, 760 455, 790 470" fill="none" stroke="#86efac" stroke-width="5"/>
-  <path d="M760 380 C720 430, 700 455, 670 470" fill="none" stroke="#86efac" stroke-width="5"/>
+  <g stroke="url(#chipLine)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M370 380 L470 280 L600 250 L735 300 L830 405 L780 520 L660 575 L515 555 L400 480 Z"/>
+    <path d="M470 280 L430 190"/>
+    <path d="M600 250 L600 130"/>
+    <path d="M735 300 L810 205"/>
+    <path d="M830 405 L950 405"/>
+    <path d="M780 520 L860 615"/>
+    <path d="M660 575 L690 675"/>
+    <path d="M515 555 L470 650"/>
+    <path d="M400 480 L280 520"/>
+    <path d="M370 380 L250 350"/>
+  </g>
 
-  <rect x="830" y="370" width="260" height="170" rx="16" fill="#0f172a" stroke="#34d399" stroke-width="4"/>
-  <polyline points="860,455 900,455 920,415 945,495 970,430 995,455 1050,455" fill="none" stroke="#34d399" stroke-width="6" stroke-linecap="round"/>
+  <g fill="#081722" stroke="#6fffe9" stroke-width="4">
+    <circle cx="370" cy="380" r="20"/>
+    <circle cx="470" cy="280" r="20"/>
+    <circle cx="600" cy="250" r="24"/>
+    <circle cx="735" cy="300" r="20"/>
+    <circle cx="830" cy="405" r="20"/>
+    <circle cx="780" cy="520" r="20"/>
+    <circle cx="660" cy="575" r="20"/>
+    <circle cx="515" cy="555" r="20"/>
+    <circle cx="400" cy="480" r="20"/>
+    <circle cx="430" cy="190" r="14"/>
+    <circle cx="600" cy="130" r="14"/>
+    <circle cx="810" cy="205" r="14"/>
+    <circle cx="950" cy="405" r="14"/>
+    <circle cx="860" cy="615" r="14"/>
+    <circle cx="690" cy="675" r="14"/>
+    <circle cx="470" cy="650" r="14"/>
+    <circle cx="280" cy="520" r="14"/>
+    <circle cx="250" cy="350" r="14"/>
+  </g>
 
-  <text x="120" y="110" fill="#e0f2fe" font-size="62" font-family="Arial, sans-serif" font-weight="700">IT + биотех vibe</text>
+  <g opacity="0.9">
+    <circle cx="600" cy="390" r="92" fill="#071723" stroke="#d6ff6e" stroke-width="5"/>
+    <circle cx="600" cy="390" r="60" fill="#0b2330" stroke="#49f5c8" stroke-width="4"/>
+    <path d="M560 390 Q600 330 640 390 Q600 450 560 390Z" fill="#d6ff6e" fill-opacity="0.85"/>
+    <circle cx="540" cy="330" r="10" fill="#53f4ff"/>
+    <circle cx="660" cy="325" r="8" fill="#53f4ff"/>
+    <circle cx="674" cy="450" r="10" fill="#9cff57"/>
+    <circle cx="530" cy="456" r="8" fill="#9cff57"/>
+  </g>
+
+  <g fill="#9eff62" fill-opacity="0.7">
+    <circle cx="920" cy="170" r="8"/>
+    <circle cx="955" cy="198" r="6"/>
+    <circle cx="980" cy="145" r="5"/>
+    <circle cx="220" cy="565" r="7"/>
+    <circle cx="190" cy="600" r="5"/>
+  </g>
 </svg>

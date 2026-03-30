@@ -526,7 +526,7 @@ export default function QuizApp() {
                     }}
                     className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
                       index < step 
-                        ? 'bg-[#DB3931] border-[#173E75] scale-110' 
+                        ? 'bg-[#173E75] border-[#173E75] scale-110' 
                         : index === step 
                         ? 'bg-white border-[#DB3931] scale-125' 
                         : 'bg-white border-gray-400'
@@ -567,7 +567,7 @@ export default function QuizApp() {
                 transition={{ delay: 0.3 }}
               >
                 <h2 className="text-2xl font-bold mb-3 text-gray-900">✨ Тебе подходит трек:</h2>
-                <p className={`mb-6 text-5xl font-extrabold md:text-6xl ${uiAccentText}`}>
+                <p className="mb-6 text-5xl font-extrabold text-[#173E75] md:text-6xl">
                   {result}
                 </p>
                 {resultQuote && (
@@ -582,7 +582,7 @@ export default function QuizApp() {
                     <div className="absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-white/20 blur-3xl" />
                     <div className="relative">
                       <blockquote className="relative max-w-3xl pl-16 pt-3 text-lg font-medium leading-relaxed text-gray-900 md:pl-20 md:text-xl">
-                        <span className={`absolute left-0 top-[-14px] text-[6.5rem] font-semibold leading-none opacity-90 md:top-[-20px] md:text-[8rem] ${uiAccentText}`}>
+                        <span className="absolute left-0 top-[-14px] text-[6.5rem] font-semibold leading-none text-[#DB3931] opacity-90 md:top-[-20px] md:text-[8rem]">
                           &ldquo;
                         </span>
                         {resultQuote.quote}

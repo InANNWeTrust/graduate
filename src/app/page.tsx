@@ -425,13 +425,6 @@ export default function QuizApp() {
     }
   };
 
-  const restart = () => {
-    setStep(0);
-    setAnswers([]);
-    setResult(null);
-    setSelectedOptions(Array.from({ length: quizQuestions.length }, () => []));
-  };
-
   const isMultiSelectStep = step === 0;
   const isNextEnabled = selectedOptions[step].length > 0;
   const resultTrack = result as Track | null;
@@ -582,17 +575,10 @@ export default function QuizApp() {
                 transition={{ delay: 0.9 }}
                 className="space-y-4"
               >
-                <button
-                  onClick={restart}
-                  className={`${uiButtonRed} text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold`}
-                >
-                  Пройти ещё раз
-                </button>
-
                 <a
                   href="https://vk.com/ftientrants"
                   target="_blank"
-                  className="block mt-4 text-blue-600 hover:text-blue-700 underline text-sm transition-colors font-medium"
+                  className="block text-lg font-bold text-[#173E75] underline underline-offset-4 transition-all duration-300 hover:text-[#DB3931]"
                 >
                   Вступай в нашу группу ВКонтакте — Абитуриент Физтеха УрФУ
                 </a>

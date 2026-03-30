@@ -177,70 +177,51 @@ interface ConfettiOptions {
 }
 
 function SplashScreen({ onComplete }: { onComplete: () => void }) {
-  const [showLetters, setShowLetters] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
   const letters = ['Ф', 'И', 'З', 'Т', 'Е', 'Х'];
   const framedLetters = new Set(['Ф', 'Т', 'Х']);
 
   const handleStart = () => {
-    if (showLetters) return;
-
-    setShowLetters(true);
-    setTimeout(() => {
-      setFadeOut(true);
-      setTimeout(() => {
-        onComplete();
-      }, 900);
-    }, 2400);
+    if (isStarting) return;
+    setIsStarting(true);
+    setTimeout(onComplete, 120);
   };
 
   return (
-    <motion.div
-      animate={{ opacity: fadeOut ? 0 : 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.9, ease: 'easeInOut' }}
+    <div
       onClick={handleStart}
       onPointerUp={handleStart}
       onTouchEnd={handleStart}
       role="button"
       tabIndex={0}
       className="fixed inset-0 flex flex-col items-center justify-center bg-black cursor-pointer touch-manipulation"
+      style={{ opacity: isStarting ? 0.92 : 1 }}
     >
-      <motion.div
+      <div
         className="absolute inset-0"
-        animate={{ opacity: [0.25, 0.45, 0.25] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
         style={{
           background:
             'radial-gradient(circle at 50% 45%, rgba(255,255,255,0.12), rgba(225,26,99,0.18) 35%, rgba(0,0,0,0.95) 70%)',
         }}
       />
 
-      <motion.div
-        className="absolute w-[420px] h-[420px] rounded-full border border-white/10"
-        animate={{ scale: [0.95, 1.04, 0.95], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-      />
+      <div className="absolute h-[420px] w-[420px] rounded-full border border-white/10 opacity-60" />
 
       <div className="relative w-64 h-64 mb-8 z-10">
-        <motion.svg
+        <svg
           viewBox="0 0 100 100"
           className="w-full h-full"
-          animate={{ rotate: [0, 360] }}
-          transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
         >
-          <motion.circle
+          <circle
             cx="50"
             cy="50"
             r="8"
             fill="white"
-            initial={{ scale: 0.8, opacity: 0.45 }}
-            animate={{ scale: [0.8, 1.1, 0.8], opacity: [0.45, 1, 0.45] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+            opacity="0.9"
           />
 
           {[0, 60, 120].map((rotation, idx) => (
-            <motion.ellipse
+            <ellipse
               key={rotation}
               cx="50"
               cy="50"
@@ -250,108 +231,67 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
               stroke="white"
               strokeWidth="0.9"
               transform={`rotate(${rotation} 50 50)`}
-              initial={{ opacity: 0.2 }}
-              animate={{ opacity: [0.2, 0.65, 0.2], strokeWidth: [0.7, 1.2, 0.7] }}
-              transition={{
-                duration: 2.6,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: idx * 0.2,
-              }}
+              opacity={0.55 + idx * 0.08}
             />
           ))}
 
           {[0, 60, 120].map((rotation, idx) => (
-            <motion.g
+            <g
               key={`electron-${rotation}`}
               style={{ transformOrigin: '50px 50px' }}
               transform={`rotate(${rotation} 50 50)`}
-              animate={{ rotate: [0, 360] }}
-              transition={{
-                duration: 4 + idx,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
             >
-              <motion.circle
+              <circle
                 cx="90"
                 cy="50"
                 r="3.2"
                 fill="#e11a63"
-                animate={{ opacity: [0.5, 1, 0.5], scale: [0.85, 1.2, 0.85] }}
-                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                opacity={0.9 - idx * 0.1}
               />
-            </motion.g>
+            </g>
           ))}
-        </motion.svg>
+        </svg>
       </div>
 
       <div className="flex items-center gap-2 z-10">
-        {letters.map((letter, index) => {
+        {letters.map((letter) => {
           const framed = framedLetters.has(letter);
 
           return (
-            <motion.div
+            <div
               key={letter}
-              initial={{ opacity: 1, y: 0, scale: 1 }}
-              animate={
-                framed
-                  ? { opacity: 1, y: 0, scale: 1 }
-                  : showLetters
-                    ? { opacity: 1, y: 0, scale: 1 }
-                    : { opacity: 0.45, y: 0, scale: 1 }
-              }
-              transition={{
-                duration: 0.45,
-                delay: showLetters && !framed ? index * 0.1 : 0,
-                ease: 'easeOut',
-              }}
               className={framed ? 'relative' : ''}
             >
               {framed ? (
-                <motion.div
-                  animate={{ boxShadow: ['0 0 10px #e11a63', '0 0 24px #e11a63', '0 0 10px #e11a63'] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  className="w-14 h-14 border-2 border-[#e11a63] flex items-center justify-center"
+                <div
+                  className="flex h-14 w-14 items-center justify-center border-2 border-[#e11a63]"
+                  style={{ boxShadow: '0 0 18px rgba(225,26,99,0.45)' }}
                 >
-                  <motion.span
-                    initial={{ opacity: 1, filter: 'blur(0px)' }}
-                    animate={{ opacity: 1, filter: 'blur(0px)' }}
-                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                  <span
                     className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
                   >
                     {letter}
-                  </motion.span>
-                </motion.div>
+                  </span>
+                </div>
               ) : (
-                <motion.span
-                  animate={{ textShadow: ['0 0 8px #fff', '0 0 16px #fff', '0 0 8px #fff'] }}
-                  transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+                <span
+                  style={{ textShadow: '0 0 12px rgba(255,255,255,0.65)' }}
                   className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
                 >
                   {letter}
-                </motion.span>
+                </span>
               )}
-            </motion.div>
+            </div>
           );
         })}
       </div>
 
-      <motion.div
-        initial={{ opacity: 1, y: 0 }}
-        animate={
-          showLetters
-            ? { opacity: 0, y: -8 }
-            : { opacity: [0.45, 1, 0.45], y: [0, -2, 0] }
-        }
-        transition={{ duration: 1.4, repeat: showLetters ? 0 : Infinity, ease: 'easeInOut' }}
-        className="mt-8 z-10"
-      >
+      <div className="mt-8 z-10">
         <p className={`text-white text-xs tracking-[0.12em] ${montserrat.className}`}>
-          Нажмите, чтобы продолжить
+          Нажмите, чтобы начать
         </p>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 export default function QuizApp() {

@@ -42,6 +42,7 @@ const score = (it: number, physical: number, chemical: number): TrackScore => ({
 
 const uiAccent = 'bg-[linear-gradient(90deg,#173E75_0%,#DB3931_100%)]';
 const uiAccentText = 'bg-[linear-gradient(90deg,#173E75_0%,#DB3931_100%)] bg-clip-text text-transparent';
+const uiButtonRed = 'bg-[#DB3931] text-white';
 
 const questions: QuizQuestion[] = [
   {
@@ -481,16 +482,7 @@ export default function QuizApp() {
               }}
               className="bg-white/95 backdrop-blur-xl p-8 rounded-2xl shadow-2xl text-center"
             >
-              <motion.div 
-                className="text-4xl font-bold text-gray-900 mb-6"
-                initial={{ scale: 0.5 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                {step + 1}
-              </motion.div>
-              
-              <h2 className="text-2xl md:text-2xl font-bold mb-3 text-gray-900">{quizQuestions[step].q}</h2>
+              <h2 className="mb-3 text-2xl font-bold text-[#173E75] md:text-2xl">{quizQuestions[step].q}</h2>
               <p className="text-sm text-gray-500 mb-4">{isMultiSelectStep ? 'Можно выбрать несколько вариантов' : 'Выбери один вариант'}</p>
               <div className="grid gap-4">
                 {quizQuestions[step].options.map((opt, idx) => (
@@ -548,7 +540,7 @@ export default function QuizApp() {
                   disabled={!isNextEnabled}
                   className={`${
                     isNextEnabled
-                      ? `${uiAccent} text-white`
+                      ? uiButtonRed
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   } text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold`}
                 >
@@ -611,7 +603,7 @@ export default function QuizApp() {
               >
                 <button
                   onClick={restart}
-                  className={`${uiAccent} text-white text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold`}
+                  className={`${uiButtonRed} text-lg rounded-xl px-8 py-3 hover:shadow-lg transition-all duration-300 hover:scale-105 font-semibold`}
                 >
                   Пройти ещё раз
                 </button>

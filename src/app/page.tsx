@@ -95,11 +95,11 @@ const questions: QuizQuestion[] = [
     ],
   },
   {
-    q: 'Что тебе интереснее: найти закономерность, собрать систему или получить новый результат?',
+    q: 'Что звучит как нормальный вечер без скуки?',
     options: [
-      { text: 'Найти закономерность', score: score(4, 0, 0) },
-      { text: 'Собрать систему', score: score(1, 4, 1) },
-      { text: 'Получить новый результат', score: score(0, 1, 4) },
+      { text: 'Код, музыка и запуск модели', score: score(4, 0, 0) },
+      { text: 'Формулы, схемы и чай', score: score(1, 4, 1) },
+      { text: 'Реактивы и ого в конце', score: score(0, 1, 4) },
     ],
   },
   {
@@ -189,12 +189,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div
-      onClick={handleStart}
-      onPointerUp={handleStart}
-      onTouchEnd={handleStart}
-      role="button"
-      tabIndex={0}
-      className="fixed inset-0 flex flex-col items-center justify-center bg-black cursor-pointer touch-manipulation"
+      className="fixed inset-0 flex flex-col items-center justify-center bg-black touch-manipulation"
       style={{ opacity: isStarting ? 0.92 : 1 }}
     >
       <div
@@ -291,6 +286,15 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           Нажмите, чтобы начать
         </p>
       </div>
+
+      <button
+        type="button"
+        onClick={handleStart}
+        onPointerUp={handleStart}
+        onTouchEnd={handleStart}
+        aria-label="Начать квиз"
+        className="absolute inset-0 z-20 cursor-pointer"
+      />
     </div>
   );
 }
@@ -424,7 +428,7 @@ export default function QuizApp() {
               }}
               className="bg-white/95 backdrop-blur-xl p-8 rounded-2xl shadow-2xl text-center"
             >
-              <h2 className="mb-3 text-2xl font-bold text-[#173E75] md:text-2xl">{quizQuestions[step].q}</h2>
+              <h2 className="mb-3 text-xl font-bold text-[#173E75] md:text-2xl">{quizQuestions[step].q}</h2>
               <p className="text-sm text-gray-500 mb-4">{isMultiSelectStep ? 'Можно выбрать несколько вариантов' : 'Выбери один вариант'}</p>
               <div className="grid gap-4">
                 {quizQuestions[step].options.map((opt, idx) => (
@@ -446,7 +450,7 @@ export default function QuizApp() {
                   >
                     <button
                       onClick={() => handleOptionSelect(opt, step)}
-                      className={`w-full whitespace-nowrap rounded-[10px] px-3 py-3 text-[11px] font-semibold tracking-[-0.01em] transition-all duration-300 sm:px-4 sm:text-sm md:px-6 md:py-4 md:text-lg ${
+                      className={`w-full whitespace-nowrap rounded-[10px] px-3 py-3 text-sm font-semibold tracking-[-0.01em] transition-all duration-300 sm:px-4 sm:text-base md:px-6 md:py-4 md:text-lg ${
                         selectedOptions[step].some((selected) => selected.text === opt.text)
                           ? `${uiAccent} text-white shadow-lg`
                           : 'bg-white text-gray-900 hover:bg-[linear-gradient(90deg,#173E75_0%,#DB3931_100%)] hover:text-white'

@@ -182,7 +182,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
   const letters = ['Ф', 'И', 'З', 'Т', 'Е', 'Х'];
   const framedLetters = new Set(['Ф', 'Т', 'Х']);
 
-  const handleClick = () => {
+  const handleStart = () => {
     if (showLetters) return;
 
     setShowLetters(true);
@@ -199,8 +199,12 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
       animate={{ opacity: fadeOut ? 0 : 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.9, ease: 'easeInOut' }}
-      onClick={handleClick}
-      className="fixed inset-0 flex flex-col items-center justify-center bg-black cursor-pointer"
+      onClick={handleStart}
+      onPointerUp={handleStart}
+      onTouchEnd={handleStart}
+      role="button"
+      tabIndex={0}
+      className="fixed inset-0 flex flex-col items-center justify-center bg-black cursor-pointer touch-manipulation"
     >
       <motion.div
         className="absolute inset-0"
@@ -289,7 +293,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
           return (
             <motion.div
               key={letter}
-              initial={{ opacity: 0, y: 10, scale: 0.9 }}
+              initial={{ opacity: 1, y: 0, scale: 1 }}
               animate={
                 framed
                   ? { opacity: 1, y: 0, scale: 1 }
@@ -311,9 +315,9 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
                   className="w-14 h-14 border-2 border-[#e11a63] flex items-center justify-center"
                 >
                   <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={showLetters ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(4px)' }}
-                    transition={{ duration: 1.1, delay: showLetters ? 0.18 : 0, ease: [0.22, 1, 0.36, 1] }}
+                    initial={{ opacity: 1, filter: 'blur(0px)' }}
+                    animate={{ opacity: 1, filter: 'blur(0px)' }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
                     className={`text-2xl font-bold text-white uppercase ${montserrat.className}`}
                   >
                     {letter}
@@ -334,7 +338,7 @@ function SplashScreen({ onComplete }: { onComplete: () => void }) {
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 1, y: 0 }}
         animate={
           showLetters
             ? { opacity: 0, y: -8 }

@@ -41,7 +41,6 @@ const score = (it: number, physical: number, chemical: number): TrackScore => ({
 });
 
 const uiAccent = 'bg-[linear-gradient(90deg,#173E75_0%,#DB3931_100%)]';
-const uiAccentText = 'bg-[linear-gradient(90deg,#173E75_0%,#DB3931_100%)] bg-clip-text text-transparent';
 const uiButtonRed = 'bg-[#DB3931] text-white';
 
 const questions: QuizQuestion[] = [

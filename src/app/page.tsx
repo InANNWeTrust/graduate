@@ -15,7 +15,7 @@ const montserrat = localFont({
   ],
 });
 
-type Track = 'Физический' | 'Химический' | 'IT + биотех';
+type Track = 'Физический' | 'Химический' | 'Технический (биотех + IT + робототехника + моделирование)';
 type TrackScore = Record<Track, number>;
 
 type QuizOption = {
@@ -31,11 +31,11 @@ type QuizQuestion = {
 const baseScore = (): TrackScore => ({
   'Физический': 0,
   'Химический': 0,
-  'IT + биотех': 0,
+  'Технический (биотех + IT + робототехника + моделирование)': 0,
 });
 
 const score = (it: number, physical: number, chemical: number): TrackScore => ({
-  'IT + биотех': it,
+  'Технический (биотех + IT + робототехника + моделирование)': it,
   'Физический': physical,
   'Химический': chemical,
 });
@@ -129,7 +129,7 @@ const questions: QuizQuestion[] = [
 ];
 
 const trackQuotes: Record<Track, { quote: string; author: string; glow: string }> = {
-  'IT + биотех': {
+  'Технический (биотех + IT + робототехника + моделирование)': {
     quote: 'Те, кто достаточно безумен, чтобы думать, что могут изменить мир, обычно именно это и делают.',
     author: 'Стив Джобс',
     glow: 'shadow-[0_24px_80px_rgba(16,185,129,0.22)]',
@@ -148,7 +148,7 @@ const trackQuotes: Record<Track, { quote: string; author: string; glow: string }
 
 function getScores(answers: QuizOption[]) {
   return answers.reduce<TrackScore>((acc, answer) => {
-    acc['IT + биотех'] += answer.score['IT + биотех'];
+    acc['Технический (биотех + IT + робототехника + моделирование)'] += answer.score['Технический (биотех + IT + робототехника + моделирование)'];
     acc['Физический'] += answer.score['Физический'];
     acc['Химический'] += answer.score['Химический'];
     return acc;
